@@ -10,6 +10,11 @@ Any routes you deactivate will check the `model` to ensure it is not
 unsaved. If it is it will either rollback or remove the model from the
 store depending if has been previously persisted.
 
+EmberAdmin uses its own data store so as not to pull in data it
+shouldn't into your regular data store.
+
+EmberData is currently a requirement.
+
 ## Install ##
 
 ```bash
@@ -18,7 +23,7 @@ npm install ember-admin --save-dev
 
 ## Usage ##
 
-Add the Admin routes to your `routes.js`
+Add the admin routes to your `routes.js`
 
 ```js
 import adminRouter from 'ember-admin/router';
@@ -43,10 +48,12 @@ provide the following backend API endpoints:
 
 ### Customizing ###
 
-By default EmberAdmin will serve up its own templates that are pretty
-generic. You can override the following templates paths:
+#### Templates ####
 
-* `app/templates/admin.hbs` - landing page for Admin interface
+By default EmberAdmin will serve up its own templates that are pretty
+generic. You can override the following template paths:
+
+* `app/templates/admin.hbs` - landing page for admin interface
 * `app/templates/model-records/index.hbs` - lists all records for a
   given model
 * `app/templates/model-records/edit.hbs` - edit form for a given record
