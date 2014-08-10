@@ -4,11 +4,8 @@
 
 ## About ##
 
-Ensure you clean up after your models.
-
-Any routes you deactivate will check the `model` to ensure it is not
-unsaved. If it is it will either rollback or remove the model from the
-store depending if has been previously persisted.
+Automatically discover your models and interact with all model data in a
+simple CRUD interface. Great for a drop-in starter admin backend.
 
 EmberAdmin uses its own data store so as not to pull in data it
 shouldn't into your regular data store.
