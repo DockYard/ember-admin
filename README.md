@@ -55,7 +55,7 @@ used by EmberAdmin is properly restricted to authorized users.
 
 EmberAdmin expects to access all of your models under an `admin/`
 namespaced API. EmberAdmin will take the adapter for your model and
-inject the `admin` namespace. So if your `Dog` model's URL is typically:
+append `admin` to the current namespace. So if your `Dog` model's URL is typically:
 `/api/dogs` EmberAdmin will try `/api/admin/dogs`. You will need to
 provide the following backend API endpoints:
 
