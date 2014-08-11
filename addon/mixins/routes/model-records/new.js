@@ -22,6 +22,9 @@ export default Ember.Mixin.create({
       promise.then(function() {
         _this.transitionTo('model-records', _this.modelFor('model-records').name);
       });
+    },
+    cancel: function() {
+      this.transitionTo('model-records', this.modelFor('model-records').name);
     }
   },
   willTransitionConfirm: function() {

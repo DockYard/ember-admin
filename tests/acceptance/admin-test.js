@@ -149,3 +149,29 @@ test('deleting a record', function() {
     rowValuesEqual(rows.eq(1), '2', 'Nyan', '3');
   });
 });
+
+test('canceling edit', function() {
+  visit('/admin/cat/1/edit');
+  andThen(function() {
+    click(find('button.cancel'));
+  });
+
+  andThen(function() {
+    equal(currentURL(), '/admin/cat');
+  });
+});
+
+test('canceling new', function() {
+  var oldConfirm = window.confirm;
+  window.confirm = function() { return true; };
+
+  visit('/admin/cat/new');
+  andThen(function() {
+    click(find('button.cancel'));
+  });
+
+  andThen(function() {
+    equal(currentURL(), '/admin/cat');
+    window.confirm = oldConfirm;
+  });
+});
