@@ -10,7 +10,7 @@ export default Ember.Mixin.create({
           collection.push(name);
         }
         if (_this.admin.excludedModels && _this.admin.excludedModels.contains(name)) {
-          collection.remove(name);
+          collection.removeObject(name);
         }
       } else if (_this.admin.excludedModels) {
         if (!_this.admin.excludedModels.contains(name)) {
