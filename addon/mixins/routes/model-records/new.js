@@ -1,33 +1,9 @@
 import Ember from 'ember';
+import WriteMixin from 'ember-admin/mixins/routes/model-records/write';
 
-export default Ember.Mixin.create({
+export default Ember.Mixin.create(WriteMixin, {
   model: function() {
     return this.admin.store.createRecord(this.modelFor('model-records').name);
   },
-  renderTemplate: function() {
-    var templatePath = 'admin/edit/' + this.modelFor('model-records').name;
-
-    if (this.container.resolve('template:'+templatePath)) {
-      this.render(templatePath);
-    } else {
-      this.render();
-    }
-  },
-  actions: {
-    save: function(callback) {
-      var _this = this;
-      var promise = this.get('controller.model').save();
-      callback(promise);
-
-      promise.then(function() {
-        _this.transitionTo('model-records', _this.modelFor('model-records').name);
-      });
-    },
-    cancel: function() {
-      this.transitionTo('model-records', this.modelFor('model-records').name);
-    }
-  },
-  willTransitionConfirm: function() {
-    return window.confirm("You have unsaved changes. Are you sure you want to continue?");
-  }
+  templateAdminPath: 'admin/new'
 });
