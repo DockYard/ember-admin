@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
-import rowValuesEqual from '../helpers/row-values-equal';
+import { rowValuesEqual, inputPropertiesEqual } from '../helpers/equality-helpers';
 import fillInByLabel from '../helpers/fill-in-by-label';
 
 var App, server;
@@ -235,5 +235,55 @@ test('including & excluding model', function() {
     equal(find('a:contains("cat")')[0], undefined);
     adminSettings.set('includedModels', null);
     adminSettings.set('excludedModels', null);
+  });
+});
+
+test('including model columns', function() {
+  var adminSettings = App.__container__.lookup('service:admin');
+  adminSettings.set('includedColumns', {
+    'cat': ['name']
+  });
+
+  visit('/admin/cat');
+
+  andThen(function() {
+    var rows = find('table tr');
+    rowValuesEqual(rows.eq(0), 'id', 'name');
+    rowValuesEqual(rows.eq(1), '1', 'Felix');
+    rowValuesEqual(rows.eq(2), '2', 'Nyan');
+
+    visit('/admin/cat/1/edit');
+  });
+
+  andThen(function() {
+    var inputs = find('input[type="text"]');
+    inputPropertiesEqual(inputs, 'name');
+
+    adminSettings.set('includedColumns', null);
+  });
+});
+
+test('excluding model columns', function() {
+  var adminSettings = App.__container__.lookup('service:admin');
+  adminSettings.set('excludedColumns', {
+    'cat': ['name']
+  });
+
+  visit('/admin/cat');
+
+  andThen(function() {
+    var rows = find('table tr');
+    rowValuesEqual(rows.eq(0), 'id', 'age');
+    rowValuesEqual(rows.eq(1), '1', '10');
+    rowValuesEqual(rows.eq(2), '2', '3');
+
+    visit('/admin/cat/1/edit');
+  });
+
+  andThen(function() {
+    var inputs = find('input[type="text"]');
+    inputPropertiesEqual(inputs, 'age');
+
+    adminSettings.set('excludedColumns', null);
   });
 });
