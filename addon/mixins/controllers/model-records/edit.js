@@ -1,9 +1,4 @@
 import Ember from 'ember';
+import ColumnsMixin from 'ember-admin/mixins/controllers/model-records/columns';
 
-export default Ember.Mixin.create({
-  needs: ['model-records'],
-  columns: Ember.computed.mapBy('controllers.model-records.columns', 'name'),
-  filteredColumns: Ember.computed.filter('columns', function(name) {
-    return name !== 'id';
-  })
-});
+export default Ember.Mixin.create(ColumnsMixin);
