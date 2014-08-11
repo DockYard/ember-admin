@@ -1,13 +1,13 @@
 {{link-to 'Create' 'model-records.new'}}
 <table>
   <tr>
-    {{#each column in columns}}
+    {{#each column in filteredColumns}}
       <td>{{column}}</td>
     {{/each}}
   </tr>
   {{#each record in model}}
     <tr>
-      {{#each column in columns}}
+      {{#each column in filteredColumns}}
       <td>
         {{#link-to 'model-records.edit' record}}
           {{property-print record column}}

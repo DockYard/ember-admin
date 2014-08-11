@@ -124,6 +124,32 @@ excludedModels: ['person']
 This configuration means that **only** the `Project` model will be
 available.
 
+### Including / Excluding Columns ###
+
+All columns defined are included by default. But you may not want to
+allow all columns to be listed on the index, or part of the form. Or,
+you may want to use non `DS.attr` properties. To define the specific
+columns to include or exclude for a given model you need to override the
+Admin Service object from the previous section, and modify the
+following:
+
+```js
+includedColumns: {
+  'person': ['name', 'age']
+},
+excludedColumns: {
+  'project': ['dateCreated']
+}
+```
+
+`includedColumns` and `excludedColumns` are objects who's keys should
+map to the model name. Each key's values are a collection of values that
+should match properties.
+
+The record index table will *always* have the `id` property available.
+And the record edit/create forms will *never* have the `id` property
+editable. 
+
 ## Authors ##
 
 * [Brian Cardarella](http://twitter.com/bcardarella)
