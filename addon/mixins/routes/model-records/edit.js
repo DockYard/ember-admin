@@ -32,5 +32,8 @@ export default Ember.Mixin.create({
         _this.transitionTo('model-records', _this.modelFor('model-records').name);
       });
     }
+  },
+  willTransitionConfirm: function() {
+    return window.confirm("You have unsaved changes. Are you sure you want to continue?");
   }
 });
