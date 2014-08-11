@@ -20,7 +20,7 @@ npm install ember-admin --save-dev
 
 ## Usage ##
 
-Add the admin routes to your `routes.js`
+Add the admin routes to your `router.js`
 
 ```js
 import adminRouter from 'ember-admin/router';
