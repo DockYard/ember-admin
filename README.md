@@ -30,6 +30,27 @@ Router.map(function() {
 });
 ```
 
+Start your ember-cli project and navigate to `/admin`.
+
+### Restricting Access ###
+
+By default EmberAdmin is unrestricted. If you'd like to restrict access
+you should override the `admin` route `app/routes/admin.js`
+
+```js
+import Ember from 'ember';
+import EmberAdminRouteAdminMixin from 'ember-admin/mixins/routes/admin';
+
+export default Ember.Route.extend(EmberAdminRouteAdminMixin, {
+
+});
+```
+
+Now you can extend the Route to behave however you'd like.
+
+**Note**: you should always take care to ensure that your backend API
+used by EmberAdmin is properly restricted to authorized users.
+
 ### Backend ###
 
 EmberAdmin expects to access all of your models under an `admin/`
