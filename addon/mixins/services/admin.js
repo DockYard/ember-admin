@@ -7,7 +7,5 @@ export default Ember.Mixin.create({
   store: null,
   includedModels: null,
   excludedModels: null,
-  includeColumns: {
-    presentation: ['bigName', 'name']
-  }
+  includeColumns: null
 });
