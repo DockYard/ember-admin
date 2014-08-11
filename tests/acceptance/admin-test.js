@@ -134,7 +134,10 @@ test('creating a new record', function() {
   });
 });
 
-test('deleting a record', function() {
+test('deleting a record & confirming', function() {
+  var confirmCount = 0;
+  var oldConfirm = window.confirm;
+  window.confirm = function() { confirmCount = 1; return true; };
   visit('/admin/cat/1/edit');
 
   andThen(function() {
@@ -147,6 +150,27 @@ test('deleting a record', function() {
   andThen(function() {
     var rows = find('table tr');
     rowValuesEqual(rows.eq(1), '2', 'Nyan', '3');
+    equal(confirmCount, 1);
+    window.confirm = oldConfirm;
+  });
+});
+
+test('deleting a record & not confirming', function() {
+  var confirmCount = 0;
+  var oldConfirm = window.confirm;
+  window.confirm = function() { return false; };
+  visit('/admin/cat/1/edit');
+
+  andThen(function() {
+    offset = 3;
+    click(find('button.delete'));
+  });
+
+  andThen(function() {});
+
+  andThen(function() {
+    equal(currentURL(), '/admin/cat/1/edit');
+    window.confirm = oldConfirm;
   });
 });
 

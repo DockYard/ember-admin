@@ -25,12 +25,22 @@ export default Ember.Mixin.create({
     },
     destroyRecord: function(callback) {
       var _this = this;
-      var promise = this.get('controller.model').destroyRecord();
-      callback(promise);
+      var canDestroy = window.confirm("Are you sure you want to destory this record?");
+      var promise;
 
-      promise.then(function() {
-        _this.transitionTo('model-records', _this.modelFor('model-records').name);
-      });
+      if (canDestroy) {
+        promise = this.get('controller.model').destroyRecord();
+        callback(promise);
+
+        promise.then(function() {
+          _this.transitionTo('model-records', _this.modelFor('model-records').name);
+        });
+      } else {
+        promise = new Ember.RSVP.Promise(function(resolve, reject) {
+          reject();
+        });
+        callback(promise);
+      }
     },
     cancel: function() {
       this.transitionTo('model-records', this.modelFor('model-records').name);
