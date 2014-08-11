@@ -32,6 +32,7 @@
     "broccoli-asset-rev": "0.0.17",
     "broccoli-ember-hbs-template-compiler": "^1.5.0",
     "ember-cli": "stefanpenner/ember-cli",
+    "ember-cli-qunit": "0.0.3",
     "ember-cli-ember-data": "0.1.0",
     "ember-cli-ic-ajax": "0.1.1",
     "express": "^4.1.1",
