@@ -69,6 +69,40 @@ Just replace `:model` with the name of your model. EmberAdmin will
 always attempt to resolve a model-specific template before rendering the
 more generic one.
 
+#### Including / Excluding Models ####
+
+All models available to Ember Data will be included by default. But you
+may not want to give access to all models. You can control this behavior
+with the Admin Service object. You will need to override
+`app/services/admin.js`
+
+```js
+import Ember from 'ember';
+import EmberAdminServiceAdminMixin from 'ember-admin/mixins/services/admin';
+
+export default Ember.Object.extend(EmberAdminServiceAdminMixin, {
+  includedModels: null,
+  excludedModels: null
+});
+```
+
+If you set `includedModels` to an array like `['person', 'project']`
+then **only** the `Person` and `Project` models will be available to the
+admin interface.
+
+If you set `excludedModels` to an array like `['person']` then every
+model **except** `Person` will be available to the admin interface.
+
+You can mix but `includedModels` and `excludedModels`:
+
+```js
+includedModels: ['person', 'project'],
+excludedModels: ['person']
+```
+
+This configuration means that **only** the `Project` model will be
+available.
+
 ## Authors ##
 
 * [Brian Cardarella](http://twitter.com/bcardarella)

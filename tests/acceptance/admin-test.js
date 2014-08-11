@@ -199,3 +199,41 @@ test('canceling new', function() {
     window.confirm = oldConfirm;
   });
 });
+
+test('excluding models', function() {
+  var adminSettings = App.__container__.lookup('service:admin');
+  adminSettings.set('excludedModels', ['cat']);
+
+  visit('/admin');
+
+  andThen(function() {
+    equal(find('a:contains("cat")')[0], undefined);
+    adminSettings.set('excludedModels', null);
+  });
+});
+
+test('including models', function() {
+  var adminSettings = App.__container__.lookup('service:admin');
+  adminSettings.set('includedModels', ['dog']);
+
+  visit('/admin');
+
+  andThen(function() {
+    equal(find('a:contains("cat")')[0], undefined);
+    adminSettings.set('includedModels', null);
+  });
+});
+
+test('including & excluding model', function() {
+  var adminSettings = App.__container__.lookup('service:admin');
+  adminSettings.set('includedModels', ['cat', 'dog']);
+  adminSettings.set('excludedModels', ['cat']);
+
+  visit('/admin');
+
+  andThen(function() {
+    equal(find('a:contains("cat")')[0], undefined);
+    adminSettings.set('includedModels', null);
+    adminSettings.set('excludedModels', null);
+  });
+});
