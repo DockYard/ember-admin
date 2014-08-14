@@ -53,6 +53,18 @@ module('Acceptance: Admin', {
       this.delete('/admin/cats/1', function(request) {
         return [204, {"Content-Type": "application/json"}, ''];
       });
+      this.get('/admin/dogs', function(request) {
+        var dogs = [
+          { id: 1, name: "Boomer", age: 2 }
+        ];
+        return [200, {"Content-Type": "application/json"}, JSON.stringify({dogs: dogs})];
+      });
+      this.get('/admin/dogs/1', function(request) {
+        var dogs = [
+          { id: 1, name: "Boomer", age: 2 }
+        ];
+        return [200, {"Content-Type": "application/json"}, JSON.stringify({dogs: dogs})];
+      });
     });
   },
   teardown: function() {
@@ -285,5 +297,26 @@ test('excluding model columns', function() {
     inputPropertiesEqual(inputs, 'age');
 
     adminSettings.set('excludedColumns', null);
+  });
+});
+
+test('can override index template', function() {
+  visit('/admin/dog');
+  andThen(function() {
+    equal(find('h3').text(), 'Dogs');
+  });
+});
+
+test('can override new template', function() {
+  visit('/admin/dog/new');
+  andThen(function() {
+    equal(find('h3').text(), 'Dogs');
+  });
+});
+
+test('can override edit template', function() {
+  visit('/admin/dog/1/edit');
+  andThen(function() {
+    equal(find('h3').text(), 'Dogs');
   });
 });
