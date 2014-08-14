@@ -3,7 +3,7 @@ import EmberDataRouteMixin from 'ember-data-route/mixins/data-route';
 
 export default Ember.Mixin.create(EmberDataRouteMixin, {
   renderTemplate: function() {
-    var templatePath = this.templateAdminPath + this.modelFor('model-records').name;
+    var templatePath = [this.templateAdminPath, this.modelFor('model-records').name].join('/');
 
     if (this.container.resolve('template:'+templatePath)) {
       this.render(templatePath);
