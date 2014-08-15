@@ -1,1 +1,8 @@
-<h3>Dogs</h3>
+<h3>Dogs New</h3>
+
+<label> Name:
+  {{input value=name}}
+</label>
+
+{{async-button action="save" default="Save" class="save"}}
+<button {{action "cancel"}} class="cancel">Cancel</button>
