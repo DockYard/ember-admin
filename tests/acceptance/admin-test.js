@@ -303,20 +303,20 @@ test('excluding model columns', function() {
 test('can override index template', function() {
   visit('/admin/dog');
   andThen(function() {
-    equal(find('h3').text(), 'Dogs');
+    equal(find('h3').text(), 'Dogs Index');
   });
 });
 
 test('can override new template', function() {
   visit('/admin/dog/new');
   andThen(function() {
-    equal(find('h3').text(), 'Dogs');
+    equal(find('h3').text(), 'Dogs New');
   });
 });
 
 test('can override edit template', function() {
   visit('/admin/dog/1/edit');
   andThen(function() {
-    equal(find('h3').text(), 'Dogs');
+    equal(find('h3').text(), 'Dogs Edit');
   });
 });
