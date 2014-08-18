@@ -114,7 +114,7 @@ admin interface.
 If you set `excludedModels` to an array like `['person']` then every
 model **except** `Person` will be available to the admin interface.
 
-You can mix but `includedModels` and `excludedModels`:
+You can mix `includedModels` and `excludedModels`:
 
 ```js
 includedModels: ['person', 'project'],
@@ -148,7 +148,7 @@ should match properties.
 
 The record index table will *always* have the `id` property available.
 And the record edit/create forms will *never* have the `id` property
-editable. 
+editable.
 
 ## Authors ##
 
