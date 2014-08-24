@@ -3,8 +3,8 @@ import Ember from 'ember';
 export default Ember.Handlebars.makeBoundHelper(function(options) {
   Ember.assert('You can only pass attributes to the `input` helper, not arguments', arguments.length < 2);
 
+  options.hash.value      = options.hash.columnValue;
   options.hashTypes.value = options.hashTypes.columnValue;
-  options.hash.value = options.data.keywords[options.hash.columnValue];
 
   delete options.hashTypes.columnValue;
   delete options.hash.columnValue;
