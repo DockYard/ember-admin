@@ -44,7 +44,8 @@
     "currentURL",
     "currentPath",
     "currentRouteName",
-    "Pretender"
+    "Pretender",
+    "-Promise"
   ],
   "node": false,
   "browser": false,
