@@ -1,10 +1,10 @@
 import Ember from 'ember';
+import RecordTypeMixin from 'ember-admin/mixins/controllers/model-records/record-type';
 
-export default Ember.Mixin.create({
-  needs: ['model-records'],
-  columns: Ember.computed.mapBy('controllers.model-records.columns', 'name'),
+export default Ember.Mixin.create(RecordTypeMixin, {
+  columns: Ember.computed.mapBy('model-record.columns', 'name'),
   filteredColumns: Ember.computed.filter('columns', function(name) {
-    var modelName = this.get('controllers.model-records.name');
+    var modelName = this.get('model-record.name');
     var allowColumn = true;
 
     if (this.admin.includedColumns && this.admin.includedColumns[modelName]) {
