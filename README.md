@@ -72,10 +72,10 @@ By default EmberAdmin will serve up its own templates that are pretty
 generic. You can override the following template paths:
 
 * `app/templates/admin.hbs` - landing page for admin interface
-* `app/templates/model-records/index.hbs` - lists all records for a
+* `app/templates/admin/index/default.hbs` - lists all records for a
   given model
-* `app/templates/model-records/edit.hbs` - edit form for a given record
-* `app/templates/model-records/new.hbs` - form for creating a new record
+* `app/templates/admin/edit/default.hbs` - edit form for a given record
+* `app/templates/admin/new/default.hbs` - form for creating a new record
 
 The above templates will apply to all models. If you want to have forms
 that apply to a specific model for more in-depth customization you
