@@ -6,8 +6,8 @@
     "ember": "1.7.0",
     "ember-resolver": "~0.1.7",
     "loader": "stefanpenner/loader.js#1.0.1",
-    "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.2",
-    "ember-cli-test-loader": "rjackson/ember-cli-test-loader#0.0.2",
+    "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.3",
+    "ember-cli-test-loader": "rjackson/ember-cli-test-loader#0.0.4",
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.2",
     "pretender": "trek/pretender#0.1.0"
   }
