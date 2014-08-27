@@ -87,12 +87,12 @@ test('viewing a model\'s records', function() {
   visit('/admin');
 
   andThen(function() {
-    var links = find('a');
+    var links = find('a:contains("cat")');
     click('#' + links.first().prop('id'));
   });
 
   andThen(function() {
-    var rows = find('table tr');
+    var rows = find('.cat table tr');
 
     rowValuesEqual(rows.eq(0), 'id', 'name', 'age');
     rowValuesEqual(rows.eq(1), '1', 'Felix', '10');
@@ -104,7 +104,7 @@ test('editing a record', function() {
   visit('/admin/cat');
 
   andThen(function() {
-    var link = find('a:contains("Felix")');
+    var link = find('.cat a:contains("Felix")');
     click(link);
   });
 
@@ -118,7 +118,7 @@ test('editing a record', function() {
   andThen(function() {});
 
   andThen(function() {
-    var rows = find('table tr');
+    var rows = find('.cat table tr');
     rowValuesEqual(rows.eq(1), '1', 'Hobbes', '29');
   });
 });
@@ -127,7 +127,7 @@ test('creating a new record', function() {
   visit('/admin/cat');
 
   andThen(function() {
-    var link = find('a:contains("Create")');
+    var link = find('.cat a:contains("Create")');
     click(link, "cannot find 'Create'");
   });
 
@@ -141,7 +141,7 @@ test('creating a new record', function() {
   andThen(function() {});
 
   andThen(function() {
-    var rows = find('table tr');
+    var rows = find('.cat table tr');
     rowValuesEqual(rows.eq(3), '3', 'Lion-O', '30');
   });
 });
@@ -160,7 +160,7 @@ test('deleting a record & confirming', function() {
   andThen(function() {});
 
   andThen(function() {
-    var rows = find('table tr');
+    var rows = find('.cat table tr');
     rowValuesEqual(rows.eq(1), '2', 'Nyan', '3');
     equal(confirmCount, 1);
     window.confirm = oldConfirm;
@@ -259,7 +259,7 @@ test('including model columns', function() {
   visit('/admin/cat');
 
   andThen(function() {
-    var rows = find('table tr');
+    var rows = find('.cat table tr');
     rowValuesEqual(rows.eq(0), 'id', 'name');
     rowValuesEqual(rows.eq(1), '1', 'Felix');
     rowValuesEqual(rows.eq(2), '2', 'Nyan');
@@ -284,7 +284,7 @@ test('excluding model columns', function() {
   visit('/admin/cat');
 
   andThen(function() {
-    var rows = find('table tr');
+    var rows = find('.cat table tr');
     rowValuesEqual(rows.eq(0), 'id', 'age');
     rowValuesEqual(rows.eq(1), '1', '10');
     rowValuesEqual(rows.eq(2), '2', '3');
