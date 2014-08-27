@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import RecordTypeMixin from 'ember-admin/mixins/controllers/model-records/record-type';
+import RecordTypeMixin from 'ember-admin/mixins/controllers/model-records/model-record';
 
 export default Ember.Mixin.create(RecordTypeMixin, {
   columns: Ember.computed.mapBy('model-record.columns', 'name'),

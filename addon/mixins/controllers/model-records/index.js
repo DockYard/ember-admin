@@ -1,6 +1,4 @@
 import Ember from 'ember';
-import ColumnsMixin from 'ember-admin/mixins/controllers/model-records/columns';
+import RecordTypeMixin from 'ember-admin/mixins/controllers/model-records/record-type';
 
-export default Ember.Mixin.create(ColumnsMixin, {
-  includedColumns: ['id']
-});
+export default Ember.Mixin.create(RecordTypeMixin);
