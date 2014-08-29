@@ -1,23 +1,25 @@
-<h2>Edit {{id}}</h2>
+<div class='edit'>
+  <h2>Edit {{id}}</h2>
 
-{{#each column in filteredColumns}}
-<div {{bind-attr class=":model-column column"}}>
-    <label>
-      {{column}}
-      {{admin-input columnValue=column}}
-    </label>
-  </div>
-{{/each}}
-
-{{async-button action="save" default="Save" pending="Saving..." fulfilled="Saved" rejected="Error" class="save"}}
-{{async-button action="destroyRecord" default="Delete" pending="Deleting..." fulfilled="Deleted" class="delete"}}
-<button {{action "cancel"}} class="cancel">Cancel</button>
-
-<h2>Relationships</h2>
-
-{{#each relationshipType in relationshipTypes}}
-  {{#each relationship in relationshipType}}
-    <h4>{{relationship.name}}</h4>
-    {{model-records-table recordType=relationship.type records=relationship.records relationshipName=relationship.inverse relationshipId=id}}
+  {{#each column in filteredColumns}}
+  <div {{bind-attr class=":model-column column"}}>
+      <label>
+        {{column}}
+        {{admin-input columnValue=column}}
+      </label>
+    </div>
   {{/each}}
-{{/each}}
+
+  {{async-button action="save" default="Save" pending="Saving..." fulfilled="Saved" rejected="Error" class="save"}}
+  {{async-button action="destroyRecord" default="Delete" pending="Deleting..." fulfilled="Deleted" class="delete"}}
+  <button {{action "cancel"}} class="cancel">Cancel</button>
+
+  <h2>Relationships</h2>
+
+  {{#each relationshipType in relationshipTypes}}
+    {{#each relationship in relationshipType}}
+      <h4>{{relationship.name}}</h4>
+      {{model-records-table recordType=relationship.type records=relationship.records relationshipName=relationship.inverse relationshipId=id}}
+    {{/each}}
+  {{/each}}
+</div>

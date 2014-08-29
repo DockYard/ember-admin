@@ -3,7 +3,7 @@ import EmberDataRouteMixin from 'ember-data-route/mixins/data-route';
 
 export default Ember.Mixin.create(EmberDataRouteMixin, {
   renderTemplate: function() {
-    var templatePath = [this.templateAdminPath, this.modelFor('model-records')].join('/');
+    var templatePath = [this.templateAdminPath, this.paramsFor('model-records').name].join('/');
     var defaultTemplatePath = [this.templateAdminPath, 'default'].join('/');
 
     if (this.container.resolve('template:'+templatePath)) {
@@ -19,11 +19,11 @@ export default Ember.Mixin.create(EmberDataRouteMixin, {
       callback(promise);
 
       promise.then(function() {
-        _this.transitionTo('model-records', _this.modelFor('model-records'));
+        _this.transitionTo('model-records', _this.paramsFor('model-records').name);
       });
     },
     cancel: function() {
-      this.transitionTo('model-records', this.modelFor('model-records'));
+      this.transitionTo('model-records', this.paramsFor('model-records').name);
     }
   },
   willTransitionConfirm: function() {

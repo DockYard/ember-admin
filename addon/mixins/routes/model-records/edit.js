@@ -3,7 +3,7 @@ import WriteMixin from 'ember-admin/mixins/routes/model-records/write';
 
 export default Ember.Mixin.create(WriteMixin, {
   model: function(params) {
-    return this.admin.store.find(this.modelFor('model-records'), params.id);
+    return this.admin.store.find(this.paramsFor('model-records').name, params.id);
   },
   templateAdminPath: 'admin/edit',
   actions: {
@@ -17,7 +17,7 @@ export default Ember.Mixin.create(WriteMixin, {
         callback(promise);
 
         promise.then(function() {
-          _this.transitionTo('model-records', _this.modelFor('model-records'));
+          _this.transitionTo('model-records', _this.paramsFor('model-records').name);
         });
       } else {
         promise = new Ember.RSVP.Promise(function(resolve, reject) {

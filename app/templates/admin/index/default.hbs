@@ -1,4 +1,4 @@
-<div {{bind-attr class="recordType"}}>
+<div {{bind-attr class="recordType :index"}}>
   {{#unless hideCreate}}
     {{#if relationshipGiven}}
       {{link-to 'Create' 'model-records.new' recordType (query-params relationship-name=relationshipName relationship-id=relationshipId)}}
