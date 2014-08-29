@@ -2,6 +2,7 @@ import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import { rowValuesEqual, inputPropertiesEqual } from '../helpers/equality-helpers';
 import fillInByLabel from '../helpers/fill-in-by-label';
+import Pretender from 'pretender';
 
 var App, server;
 var offset, toy;
