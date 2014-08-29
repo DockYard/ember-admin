@@ -304,21 +304,21 @@ test('excluding model columns', function() {
 test('can override index template', function() {
   visit('/admin/dog');
   andThen(function() {
-    equal(find('h3').text(), 'Dogs Index');
+    equal(find('h3.index').text(), 'Dogs Index');
   });
 });
 
 test('can override new template', function() {
   visit('/admin/dog/new');
   andThen(function() {
-    equal(find('h3').text(), 'Dogs New');
+    equal(find('h3.new').text(), 'Dogs New');
   });
 });
 
 test('can override edit template', function() {
   visit('/admin/dog/1/edit');
   andThen(function() {
-    equal(find('h3').text(), 'Dogs Edit');
+    equal(find('h3.edit').text(), 'Dogs Edit');
   });
 });
 
@@ -327,6 +327,9 @@ module('Acceptance: Admin Relationships', {
     App = startApp();
     offset = 0;
     server = new Pretender(function() {
+      this.get('/admin/cats', function() {
+        return [200, {"Content-Type": "application/json"}, JSON.stringify({cats: [], owners: [], toys: []})];
+      });
       this.get('/admin/cats/1', function(request) {
         var cats = [
           { id: 1, name: "Felix", age: 10, owner: 1, toys: [1,2] },
