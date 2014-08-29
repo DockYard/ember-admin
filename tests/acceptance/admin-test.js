@@ -4,7 +4,7 @@ import { rowValuesEqual, inputPropertiesEqual } from '../helpers/equality-helper
 import fillInByLabel from '../helpers/fill-in-by-label';
 
 var App, server;
-var offset;
+var offset, toy;
 
 module('Acceptance: Admin', {
   setup: function() {
@@ -34,19 +34,19 @@ module('Acceptance: Admin', {
       });
       this.get('/admin/cats/1', function(request) {
         var cats = [
-          { id: 1, name: "Felix", age: 10 },
+          { id: 1, name: "Felix", age: 10 }
         ];
         return [200, {"Content-Type": "application/json"}, JSON.stringify({cats: cats})];
       });
       this.put('/admin/cats/1', function(request) {
         var cats = [
-          { id: 1, name: "Hobbes", age: 29 },
+          { id: 1, name: "Hobbes", age: 29 }
         ];
         return [200, {"Content-Type": "application/json"}, JSON.stringify({cats: cats})];
       });
       this.post('/admin/cats', function(request) {
         var cats = [
-          { id: 3, name: "Lion-O", age: 30 },
+          { id: 3, name: "Lion-O", age: 30 }
         ];
         return [200, {"Content-Type": "application/json"}, JSON.stringify({cats: cats})];
       });
@@ -79,7 +79,7 @@ test('listing all models', function() {
   andThen(function() {
     var links = find('a');
     equal(links.first().text(), 'cat');
-    equal(links.last().text(), 'dog');
+    equal(links.last().text(), 'toy');
   });
 });
 
@@ -318,5 +318,98 @@ test('can override edit template', function() {
   visit('/admin/dog/1/edit');
   andThen(function() {
     equal(find('h3').text(), 'Dogs Edit');
+  });
+});
+
+module('Acceptance: Admin Relationships', {
+  setup: function() {
+    App = startApp();
+    offset = 0;
+    server = new Pretender(function() {
+      this.get('/admin/cats/1', function(request) {
+        var cats = [
+          { id: 1, name: "Felix", age: 10, owner: 1, toys: [1,2] },
+        ];
+        var owners = [
+          { id: 1, name: "Pat Sullivan", cats: [1] }
+        ];
+        var toys = [
+          { id: 1, name: "Ball", cat: 1 },
+          { id: 2, name: "Mouse", cat: 1 }
+        ];
+        return [200, {"Content-Type": "application/json"}, JSON.stringify({cats: cats, owners: owners, toys: toys})];
+      });
+      this.post('/admin/toys', function(request) {
+        toy = JSON.parse(request.requestBody).toy;
+        toy.id = 3;
+        return [200, {"Content-Type": "application/json"}, JSON.stringify({toys: [toy]})];
+      });
+      this.get('/admin/toys', function() {
+        var toys = [
+          { id: 1, name: "Ball", cat: 1 },
+          { id: 2, name: "Mouse", cat: 1 }
+        ];
+
+        if (toy) {
+          toys.push(toy);
+        }
+        return [200, {"Content-Type": "application/json"}, JSON.stringify({toys: toys})];
+      });
+    });
+  },
+  teardown: function() {
+    Ember.run(App, 'destroy');
+    server.shutdown();
+    toy = undefined;
+  }
+});
+
+test('should list relationships', function() {
+  visit('/admin/cat/1/edit');
+
+  andThen(function() {
+    var ownerRows = find('.owner table tr');
+    rowValuesEqual(ownerRows.eq(0), 'id', 'name');
+    rowValuesEqual(ownerRows.eq(1), '1', 'Pat Sullivan');
+
+    var toyRows = find('.toy table tr');
+    rowValuesEqual(toyRows.eq(0), 'id', 'name');
+    rowValuesEqual(toyRows.eq(1), '1', 'Ball');
+    rowValuesEqual(toyRows.eq(2), '2', 'Mouse');
+  });
+});
+
+test('should create new model as a relationship to parent', function() {
+  visit('/admin/cat/1/edit');
+
+  andThen(function() {
+    click('.toy a:contains("Create")');
+  });
+
+  andThen(function() {
+    fillInByLabel('name', 'Bell');
+    click(find('button.save'));
+  });
+
+  andThen(function() {
+    click('.toy a:contains("Bell")');
+  });
+
+  andThen(function() {
+    click('.cat a:contains("Felix")');
+  });
+
+  andThen(function() {
+    var toyRows = find('.toy table tr');
+    rowValuesEqual(toyRows.eq(3), '3', 'Bell');
+  });
+});
+
+test('should not display "Create" if singular relationship model exists', function() {
+  visit('/admin/cat/1/edit');
+
+  andThen(function() {
+    var createLink = find('.owner a:contains("Create")');
+    equal(0, createLink.length, 'should not find the Create link');
   });
 });

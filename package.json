@@ -23,9 +23,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "ember-cli-async-button": "dockyard/ember-cli-async-button",
-    "ember-data-route": "dockyard/ember-data-route",
-    "walk-sync": "^0.1.2"
+    "ember-cli-async-button": "0.2.0",
+    "ember-data-route": "0.0.2"
   },
   "devDependencies": {
     "broccoli-asset-rev": "0.0.17",
