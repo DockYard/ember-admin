@@ -1,31 +1,41 @@
 import Ember from 'ember';
 import RecordTypeMixin from 'ember-admin/mixins/controllers/model-records/model-record';
 
-export default Ember.Mixin.create(RecordTypeMixin, {
-  columns: Ember.computed.mapBy('model-record.columns', 'name'),
-  filteredColumns: Ember.computed.filter('columns', function(name) {
-    var modelName = this.get('model-record.name');
-    var allowColumn = true;
+var get    = Ember.get;
+var mapBy  = Ember.computed.mapBy;
+var filter = Ember.computed.filter;
 
-    if (this.admin.includedColumns && this.admin.includedColumns[modelName]) {
-      if (this.admin.includedColumns[modelName].contains(name)) {
+function columnContains(columnType, parameter) {
+  return columnType && columnType.contains(parameter);
+}
+
+export default Ember.Mixin.create(RecordTypeMixin, {
+  columns: mapBy('model-record.columns', 'name'),
+
+  filteredColumns: filter('columns', function(name) {
+    var modelName            = get(this, 'model-record.name');
+    var adminIncludedColumns = this.admin.includedColumns;
+    var adminExcludedColumns = this.admin.excludedColumns;
+    var includedColumns      = this.includedColumns;
+    var excludedColumns      = this.excludedColumns;
+    var allowColumn          = true;
+
+    if (adminIncludedColumns) {
+      if (columnContains(adminIncludedColumns[modelName], name)) {
         allowColumn = true;
       } else {
         allowColumn = false;
       }
-    } else if (this.admin.excludedColumns && this.admin.excludedColumns[modelName]) {
-      if (this.admin.excludedColumns[modelName].contains(name)) {
+    }
+
+    if (adminExcludedColumns) {
+      if (columnContains(adminExcludedColumns[modelName], name)) {
         allowColumn = false;
       }
     }
-    
-    if (this.get('excludedColumns') && this.get('excludedColumns').contains(name)) {
-      allowColumn = false;
-    }
 
-    if (this.get('includedColumns') && this.get('includedColumns').contains(name)) {
-      allowColumn = true;
-    }
+    if (columnContains(excludedColumns, name)) { allowColumn = false; }
+    if (columnContains(includedColumns, name)) { allowColumn = true; }
 
     return allowColumn;
   })
