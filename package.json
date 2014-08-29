@@ -1,6 +1,6 @@
 {
   "name": "ember-admin",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "directories": {
     "doc": "doc",
     "test": "test"
