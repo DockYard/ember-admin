@@ -10,5 +10,18 @@ export default Ember.Mixin.create(ColumnsMixin, {
     }
 
     return this.container.lookup('template:'+templatePath);
+  }),
+  relationshipGiven: Ember.computed('relationshipName', 'relationshipId', function() {
+    return this.get('relationshipName') && this.get('relationshipId');
+  }),
+  hideCreate: Ember.computed('relationshipName', 'relationshipId', function() {
+    if (this.get('relationshipName') && this.get('relationshipId')) {
+      var constructor = this.admin.store.modelFor(this.get('recordType'));
+      var kind = constructor.inverseFor(this.get('relationshipName')).kind;
+
+      if (kind && kind === 'belongsTo' && this.get('records.length') > 0) {
+        return true;
+      }
+    }
   })
 });

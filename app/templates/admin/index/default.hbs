@@ -1,5 +1,12 @@
 <div {{bind-attr class="recordType"}}>
-  {{link-to 'Create' 'model-records.new'}}
+  {{#unless hideCreate}}
+    {{#if relationshipGiven}}
+      {{link-to 'Create' 'model-records.new' recordType (query-params relationship-name=relationshipName relationship-id=relationshipId)}}
+    {{else}}
+      {{link-to 'Create' 'model-records.new' recordType}}
+    {{/if}}
+  {{/unless}}
+
   <table>
     <tr>
       {{#each column in filteredColumns}}
@@ -10,12 +17,15 @@
       <tr>
         {{#each column in filteredColumns}}
         <td>
-          {{#link-to 'model-records.edit' record}}
-            {{property-print record column}}
+          {{#link-to 'model-records.edit' recordType record}}
+            {{property-print "record" column}}
           {{/link-to}}
         </td>
         {{/each}}
       </tr>
     {{/each}}
   </table>
+  {{#unless records}}
+    No records!
+  {{/unless}}
 </div>
