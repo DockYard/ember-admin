@@ -3,7 +3,7 @@ export { rowValuesEqual, inputPropertiesEqual };
 function rowValuesEqual () {
   var row = arguments[0];
   var values = Array.prototype.slice.call(arguments, 1, arguments.length);
-  var columns = row.find('td');
+  var columns = row.find('th, td');
   var columnText;
 
   equal(values.length, columns.length, 'expected ' + values.length + ' columns: (' + values.join(', ') + ')');

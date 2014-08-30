@@ -3,7 +3,7 @@
 
   <form>
     {{#each column in filteredColumns}}
-    <div {{bind-attr class=":model-column column"}}>
+      <div {{bind-attr class=":model-column column"}}>
         <label>
           {{column}}
           {{admin-input columnValue=column}}

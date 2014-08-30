@@ -9,11 +9,11 @@
 
   <table>
     <thead>
-      <th>
+      <tr>
         {{#each column in filteredColumns}}
-          <td>{{column}}</td>
+          <th>{{column}}</th>
         {{/each}}
-      </th>
+      </tr>
     </thead>
     <tbody>
       {{#each record in records}}
