@@ -8,22 +8,26 @@
   {{/unless}}
 
   <table>
-    <tr>
-      {{#each column in filteredColumns}}
-        <td>{{column}}</td>
-      {{/each}}
-    </tr>
-    {{#each record in records}}
-      <tr>
+    <thead>
+      <th>
         {{#each column in filteredColumns}}
-        <td>
-          {{#link-to 'model-records.edit' recordType record}}
-            {{property-print "record" column}}
-          {{/link-to}}
-        </td>
+          <td>{{column}}</td>
         {{/each}}
-      </tr>
-    {{/each}}
+      </th>
+    </thead>
+    <tbody>
+      {{#each record in records}}
+        <tr>
+          {{#each column in filteredColumns}}
+          <td>
+            {{#link-to 'model-records.edit' recordType record}}
+              {{property-print "record" column}}
+            {{/link-to}}
+          </td>
+          {{/each}}
+        </tr>
+      {{/each}}
+    </tbody>
   </table>
   {{#unless records}}
     No records!
