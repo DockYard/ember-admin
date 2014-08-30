@@ -1,4 +1,5 @@
 <div {{bind-attr class="recordType :index"}}>
+  {{input value=filter placeholder="Filter"}}
   {{#unless hideCreate}}
     {{#if relationshipGiven}}
       {{link-to 'Create' 'model-records.new' recordType (query-params relationship-name=relationshipName relationship-id=relationshipId)}}
@@ -16,7 +17,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each record in records}}
+      {{#each record in filteredRecords}}
         <tr>
           {{#each column in filteredColumns}}
           <td>

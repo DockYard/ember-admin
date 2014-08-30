@@ -11,6 +11,24 @@ export default Ember.Mixin.create(ColumnsMixin, {
 
     return this.container.lookup('template:'+templatePath);
   }),
+  filteredRecords: Ember.computed('records', 'filter', function() {
+    if (Ember.isBlank(this.get('filter'))) {
+      return this.get('records');
+    } else {
+      var filter = this.get('filter').toLowerCase();
+      var columns = this.get('filteredColumns');
+      return this.get('records').filter(function(record) {
+        var value;
+        for(var i = 0; i < columns.length; i++) {
+          value = record.get(columns[i]).toString().toLowerCase();
+
+          if (value.indexOf(filter) > -1) {
+            return true;
+          }
+        }
+      });
+    }
+  }),
   relationshipGiven: Ember.computed('relationshipName', 'relationshipId', function() {
     return this.get('relationshipName') && this.get('relationshipId');
   }),
