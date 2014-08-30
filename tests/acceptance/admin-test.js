@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import { rowValuesEqual, inputPropertiesEqual } from '../helpers/equality-helpers';
-import fillInByLabel from '../helpers/fill-in-by-label';
+import { fillInByLabel, fillInByPlaceholder } from '../helpers/fill-in-by';
 import Pretender from 'pretender';
 
 var App, server;
@@ -98,6 +98,22 @@ test('viewing a model\'s records', function() {
     rowValuesEqual(rows.eq(0), 'id', 'name', 'age');
     rowValuesEqual(rows.eq(1), '1', 'Felix', '10');
     rowValuesEqual(rows.eq(2), '2', 'Nyan', '3');
+  });
+});
+
+test('filtering records by value', function() {
+  visit('/admin/cat');
+
+  andThen(function() {
+    fillInByPlaceholder('Filter', 'Felix');
+  });
+
+  andThen(function() {
+    var rows = find('.cat table tr');
+
+    rowValuesEqual(rows.eq(0), 'id', 'name', 'age');
+    rowValuesEqual(rows.eq(1), '1', 'Felix', '10');
+    ok(Ember.isEmpty(rows.eq(2)), 'third row should not exist');
   });
 });
 
@@ -269,7 +285,7 @@ test('including model columns', function() {
   });
 
   andThen(function() {
-    var inputs = find('input[type="text"]');
+    var inputs = find('input[type="text"]:not([placeholder="Filter"])');
     inputPropertiesEqual(inputs, 'name');
 
     adminSettings.set('includedColumns', null);
@@ -294,7 +310,7 @@ test('excluding model columns', function() {
   });
 
   andThen(function() {
-    var inputs = find('input[type="text"]');
+    var inputs = find('input[type="text"]:not([placeholder="Filter"])');
     inputPropertiesEqual(inputs, 'age');
 
     adminSettings.set('excludedColumns', null);
