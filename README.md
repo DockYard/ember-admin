@@ -150,6 +150,12 @@ The record index table will *always* have the `id` property available.
 And the record edit/create forms will *never* have the `id` property
 editable.
 
+## Plugins ##
+
+Plugins can take many forms but the general idea is that they will extend the default behavior of `ember-admin`. Below is a list to choose from.
+
+* [ember-admin-bootstrap](https://github.com/dockyard/ember-admin-bootstrap)
+
 ## Authors ##
 
 * [Brian Cardarella](http://twitter.com/bcardarella)
