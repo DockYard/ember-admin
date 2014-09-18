@@ -2,7 +2,6 @@ import Ember from 'ember';
 import RecordTypeMixin from 'ember-admin/mixins/controllers/model-records/model-record';
 
 var get    = Ember.get;
-var mapBy  = Ember.computed.mapBy;
 var filter = Ember.computed.filter;
 
 function columnContains(columnType, parameter) {
@@ -10,7 +9,17 @@ function columnContains(columnType, parameter) {
 }
 
 export default Ember.Mixin.create(RecordTypeMixin, {
-  columns: mapBy('model-record.columns', 'name'),
+  columns: Ember.computed('model', function() {
+    var klass = this.get('container').lookup('data-adapter:main').getModelTypes().findBy('name', this.get('recordType')).klass;
+
+    var keys = Ember.A(['id']);
+
+    klass.eachAttribute(function(key) {
+      keys.push(key);
+    });
+
+    return keys;
+  }),
 
   filteredColumns: filter('columns', function(name) {
     var modelName            = get(this, 'model-record.name');

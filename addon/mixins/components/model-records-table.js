@@ -20,7 +20,7 @@ export default Ember.Mixin.create(ColumnsMixin, {
       return this.get('records').filter(function(record) {
         var value;
         for(var i = 0; i < columns.length; i++) {
-          value = record.get(columns[i]).toString().toLowerCase();
+          value = (record.get(columns[i]) || '').toString().toLowerCase();
 
           if (value.indexOf(filter) > -1) {
             return true;
