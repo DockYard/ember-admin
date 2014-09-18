@@ -6,7 +6,7 @@ function rowValuesEqual () {
   var columns = row.find('th, td');
   var columnText;
 
-  equal(values.length, columns.length, 'expected ' + values.length + ' columns: (' + values.join(', ') + ')');
+  equal(columns.length, values.length, 'expected ' + values.length + ' columns: (' + values.join(', ') + ')');
 
   for (var i = 0; i < columns.length; i++) {
     columnText = columns.eq(i).text().trim();
@@ -19,7 +19,7 @@ function inputPropertiesEqual() {
   var values = Array.prototype.slice.call(arguments, 1, arguments.length);
   var labelText;
 
-  equal(values.length, inputs.length, 'expected ' + values.length + ' inputs: (' + values.join(', ') + ')');
+  equal(inputs.length, values.length, 'expected ' + values.length + ' inputs: (' + values.join(', ') + ')');
 
   for (var i = 0; i < inputs.length; i ++) {
     labelText = inputs.eq(i).parent().text().trim();

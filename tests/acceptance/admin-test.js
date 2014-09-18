@@ -95,9 +95,9 @@ test('viewing a model\'s records', function() {
   andThen(function() {
     var rows = find('.cat table tr');
 
-    rowValuesEqual(rows.eq(0), 'id', 'name', 'age');
-    rowValuesEqual(rows.eq(1), '1', 'Felix', '10');
-    rowValuesEqual(rows.eq(2), '2', 'Nyan', '3');
+    rowValuesEqual(rows.eq(0), 'id', 'name', 'age', 'foo', 'bar', 'baz');
+    rowValuesEqual(rows.eq(1), '1', 'Felix', '10', '', '', '');
+    rowValuesEqual(rows.eq(2), '2', 'Nyan', '3', '', '', '');
   });
 });
 
@@ -111,8 +111,8 @@ test('filtering records by value', function() {
   andThen(function() {
     var rows = find('.cat table tr');
 
-    rowValuesEqual(rows.eq(0), 'id', 'name', 'age');
-    rowValuesEqual(rows.eq(1), '1', 'Felix', '10');
+    rowValuesEqual(rows.eq(0), 'id', 'name', 'age', 'foo', 'bar', 'baz');
+    rowValuesEqual(rows.eq(1), '1', 'Felix', '10', '', '', '');
     ok(Ember.isEmpty(rows.eq(2)), 'third row should not exist');
   });
 });
@@ -136,7 +136,7 @@ test('editing a record', function() {
 
   andThen(function() {
     var rows = find('.cat table tr');
-    rowValuesEqual(rows.eq(1), '1', 'Hobbes', '29');
+    rowValuesEqual(rows.eq(1), '1', 'Hobbes', '29', '', '', '');
   });
 });
 
@@ -159,7 +159,7 @@ test('creating a new record', function() {
 
   andThen(function() {
     var rows = find('.cat table tr');
-    rowValuesEqual(rows.eq(3), '3', 'Lion-O', '30');
+    rowValuesEqual(rows.eq(3), '3', 'Lion-O', '30', '', '', '');
   });
 });
 
@@ -178,7 +178,7 @@ test('deleting a record & confirming', function() {
 
   andThen(function() {
     var rows = find('.cat table tr');
-    rowValuesEqual(rows.eq(1), '2', 'Nyan', '3');
+    rowValuesEqual(rows.eq(1), '2', 'Nyan', '3', '', '', '');
     equal(confirmCount, 1);
     window.confirm = oldConfirm;
   });
@@ -302,16 +302,16 @@ test('excluding model columns', function() {
 
   andThen(function() {
     var rows = find('.cat table tr');
-    rowValuesEqual(rows.eq(0), 'id', 'age');
-    rowValuesEqual(rows.eq(1), '1', '10');
-    rowValuesEqual(rows.eq(2), '2', '3');
+    rowValuesEqual(rows.eq(0), 'id', 'age', 'foo', 'bar', 'baz');
+    rowValuesEqual(rows.eq(1), '1', '10', '', '', '');
+    rowValuesEqual(rows.eq(2), '2', '3', '', '', '');
 
     visit('/admin/cat/1/edit');
   });
 
   andThen(function() {
     var inputs = find('input[type="text"]:not([placeholder="Filter"])');
-    inputPropertiesEqual(inputs, 'age');
+    inputPropertiesEqual(inputs, 'age', 'foo', 'bar', 'baz');
 
     adminSettings.set('excludedColumns', null);
   });
