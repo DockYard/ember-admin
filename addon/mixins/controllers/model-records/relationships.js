@@ -20,11 +20,13 @@ function relationshipMacro(type) {
         }
 
         var constructor = _this.get('model.constructor');
+        var inverse = constructor.inverseFor(property);
+
         relationships.pushObject({
           name:    property,
           records: records,
           type:    constructor.metaForProperty(property).type,
-          inverse: constructor.inverseFor(property).name
+          inverse: inverse && inverse.name
         });
       });
 
