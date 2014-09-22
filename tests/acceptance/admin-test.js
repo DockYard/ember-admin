@@ -79,7 +79,7 @@ test('listing all models', function() {
 
   andThen(function() {
     var links = find('a');
-    equal(links.first().text(), 'cat');
+    equal(links.first().text(), 'bird');
     equal(links.last().text(), 'toy');
   });
 });
@@ -359,6 +359,18 @@ module('Acceptance: Admin Relationships', {
         ];
         return [200, {"Content-Type": "application/json"}, JSON.stringify({cats: cats, owners: owners, toys: toys})];
       });
+      this.get('/admin/birds', function() {
+        return [200, {"Content-Type": "application/json"}, JSON.stringify({birds: [], toys: []})];
+      });
+      this.get('/admin/birds/1', function(request) {
+        var birds = [
+          { id: 1, name: "Boomer", toys: [3] }
+        ];
+        var toys = [
+          { id: 3, name: "Duck", bird: 1 }
+        ];
+        return [200, {"Content-Type": "application/json"}, JSON.stringify({birds: birds, toys: toys})];
+      });
       this.post('/admin/toys', function(request) {
         toy = JSON.parse(request.requestBody).toy;
         toy.id = 3;
@@ -430,6 +442,17 @@ test('should not display "Create" if singular relationship model exists', functi
 
   andThen(function() {
     var createLink = find('.owner a:contains("Create")');
+    equal(0, createLink.length, 'should not find the Create link');
+  });
+});
+
+test('should not display "Create" if no inverse relationship exists', function() {
+  visit('/admin/bird/1/edit');
+
+  andThen(function() {
+    var toysTable = find('.toy');
+    equal(1, toysTable.length, 'should find the toy relationship table');
+    var createLink = find('.toy a:contains("Create")');
     equal(0, createLink.length, 'should not find the Create link');
   });
 });

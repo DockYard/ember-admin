@@ -33,12 +33,19 @@ export default Ember.Mixin.create(ColumnsMixin, {
     return this.get('relationshipName') && this.get('relationshipId');
   }),
   hideCreate: Ember.computed('relationshipName', 'relationshipId', function() {
-    if (this.get('relationshipName') && this.get('relationshipId')) {
-      var constructor = this.admin.store.modelFor(this.get('recordType'));
-      var kind = constructor.inverseFor(this.get('relationshipName')).kind;
+    var relationshipName = this.get('relationshipName');
+    var relationshipId = this.get('relationshipId');
 
-      if (kind && kind === 'belongsTo' && this.get('records.length') > 0) {
+    if (relationshipId) {
+      if (Ember.isNone(relationshipName)) {
         return true;
+      } else {
+        var constructor = this.admin.store.modelFor(this.get('recordType'));
+        var kind = constructor.inverseFor(relationshipName).kind;
+
+        if (kind && kind === 'belongsTo' && this.get('records.length') > 0) {
+          return true;
+        }
       }
     }
   })
