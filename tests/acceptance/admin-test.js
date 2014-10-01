@@ -163,6 +163,27 @@ test('creating a new record', function() {
   });
 });
 
+test('creating doesn\'t affect list', function() {
+  visit('/admin/cat');
+
+  var rows;
+
+  andThen(function() {
+    var link = find('.cat a:contains("Create")');
+
+    rows = find('.cat tr');
+
+    click(link);
+  });
+
+  andThen(function() {});
+
+  andThen(function() {
+    var newRows = find('.cat tr');
+    equal(rows.length, newRows.length, 'Number of rows unaffected');
+  });
+});
+
 test('deleting a record & confirming', function() {
   var confirmCount = 0;
   var oldConfirm = window.confirm;
