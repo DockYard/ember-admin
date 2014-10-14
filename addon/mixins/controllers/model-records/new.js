@@ -13,10 +13,10 @@ export default Ember.Mixin.create(RecordTypeMixin, ColumnsMixin, {
 
     if (name && id) {
       var _this = this;
-      this.admin.store.find(name, id).then(function(model) {
-        var kind = _this.get('model.constructor').metaForProperty(name).kind;
+      var meta = this.get('model').constructor.metaForProperty(name);
 
-        if (kind && kind === 'hasMany') {
+      this.admin.store.find(meta.type, id).then(function(model) {
+        if (meta.kind && meta.kind === 'hasMany') {
           _this.get('model.'+name).pushObject(model);
         } else {
           _this.set('model.'+name, model);

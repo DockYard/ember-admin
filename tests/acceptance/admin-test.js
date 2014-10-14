@@ -408,6 +408,21 @@ module('Acceptance: Admin Relationships', {
         }
         return [200, {"Content-Type": "application/json"}, JSON.stringify({toys: toys})];
       });
+      this.get('/admin/owners', function() {
+        return [200, {"Content-Type": "application/json"}, JSON.stringify({owners: []})];
+      });
+      this.get('/admin/courses', function() {
+        return [200, {"Content-Type": "application/json"}, JSON.stringify({courses: []})];
+      });
+      this.get('/admin/owners/1', function() {
+        var owners = [
+          { id: 1, name: 'Brian', courses: [1] }
+        ];
+        var courses = [
+          { id: 1, title: 'Teach Your Dog', owners: [1] }
+        ];
+        return [200, {"Content-Type": "application/json"}, JSON.stringify({owners: owners, courses: courses})];
+      });
     });
   },
   teardown: function() {
@@ -475,5 +490,20 @@ test('should not display "Create" if no inverse relationship exists', function()
     equal(1, toysTable.length, 'should find the toy relationship table');
     var createLink = find('.toy a:contains("Create")');
     equal(0, createLink.length, 'should not find the Create link');
+  });
+});
+
+test('should properly create Many-to-Many relationship with inverse', function() {
+  visit('/admin/owner/1/edit');
+
+  andThen(function() {
+    var coursesTable = find('.course');
+    equal(1, coursesTable.length, 'should find the course relationship table');
+    click('.course a:contains("Create")');
+  });
+
+  andThen(function() {
+    fillInByLabel('title', 'New Course!');
+    click(find('button.save'));
   });
 });
