@@ -22,7 +22,7 @@
           {{#each column in filteredColumns}}
           <td>
             {{#link-to 'model-records.edit' recordType record}}
-              {{property-print "record" column}}
+              {{property-print record=record column=column}}
             {{/link-to}}
           </td>
           {{/each}}

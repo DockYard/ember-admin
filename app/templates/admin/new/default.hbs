@@ -6,7 +6,7 @@
       <div {{bind-attr class=":model-column column"}}>
         <label>
           {{column}}
-          {{admin-input columnValue=column}}
+          {{admin-input record=this columnValue=column}}
         </label>
       </div>
     {{/each}}
