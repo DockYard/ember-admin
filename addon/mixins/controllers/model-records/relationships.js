@@ -1,5 +1,14 @@
 import Ember from 'ember';
 
+export default Ember.Mixin.create({
+  hasMany: relationshipMacro('Has Many'),
+  belongsTo: relationshipMacro('Belongs To'),
+
+  relationshipTypes: Ember.computed('recordType', 'id', function() {
+    return [this.get('hasMany'), this.get('belongsTo')];
+  })
+});
+
 function relationshipMacro(type) {
   return Ember.computed('recordType', 'id', function() {
     var _this = this;
@@ -23,9 +32,9 @@ function relationshipMacro(type) {
         var inverse = constructor.inverseFor(property);
 
         relationships.pushObject({
-          name:    property,
+          name: property,
           records: records,
-          type:    constructor.metaForProperty(property).type,
+          type: constructor.metaForProperty(property).type,
           inverse: inverse && inverse.name
         });
       });
@@ -34,11 +43,3 @@ function relationshipMacro(type) {
     }, Ember.A());
   });
 }
-
-export default Ember.Mixin.create({
-  hasMany: relationshipMacro('Has Many'),
-  belongsTo: relationshipMacro('Belongs To'),
-  relationshipTypes: Ember.computed('recordType', 'id', function() {
-    return [this.get('hasMany'), this.get('belongsTo')];
-  }),
-});

@@ -15,9 +15,9 @@ export default Ember.Mixin.create({
           collection.removeObject(name);
         }
       } else if (excludedModels) {
-          if (!excludedModels.contains(name)) {
-            collection.push(name);
-          }
+        if (!excludedModels.contains(name)) {
+          collection.push(name);
+        }
       } else {
         collection.push(name);
       }

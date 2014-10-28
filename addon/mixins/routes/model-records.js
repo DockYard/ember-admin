@@ -6,8 +6,12 @@ export default Ember.Mixin.create({
       return !item.get('isNew');
     });
   },
+
   setupController: function(controller, model) {
     this._super(controller, model);
-    controller.set('recordType', this.paramsFor('model-records').name);
+
+    var modelName = this.paramsFor('model-records').name;
+
+    controller.set('recordType', modelName);
   }
 });
