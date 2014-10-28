@@ -1,9 +1,9 @@
-<div class='new'>
+<div class="new">
   <h2>Create</h2>
 
   <form>
     {{#each column in filteredColumns}}
-      <div {{bind-attr class=":model-column column"}}>
+      <div {{bind-attr class=':model-column column'}}>
         <label>
           {{column}}
           {{admin-input record=this columnValue=column}}
@@ -11,7 +11,7 @@
       </div>
     {{/each}}
 
-    {{async-button action="save" default="Save" pending="Saving..." fulfilled="Saved" rejected="Error" class="save"}}
-    <button {{action "cancel"}} class="cancel">Cancel</button>
+    {{async-button action='save' default='Save' pending='Saving...' fulfilled='Saved' rejected='Error' class='save'}}
+    <button {{action 'cancel'}} class="cancel">Cancel</button>
   </form>
 </div>

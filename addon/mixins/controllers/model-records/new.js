@@ -7,19 +7,20 @@ export default Ember.Mixin.create(RecordTypeMixin, ColumnsMixin, {
   queryParams: ['relationship-name', 'relationship-id'],
   'relationship-name': null,
   'relationship-id': null,
+
   setupRelation: Ember.observer('model', function() {
+    var _this = this;
     var name = this.get('relationship-name');
-    var id   = this.get('relationship-id');
+    var id = this.get('relationship-id');
 
     if (name && id) {
-      var _this = this;
       var meta = this.get('model').constructor.metaForProperty(name);
 
       this.admin.store.find(meta.type, id).then(function(model) {
         if (meta.kind && meta.kind === 'hasMany') {
-          _this.get('model.'+name).pushObject(model);
+          _this.get('model.' + name).pushObject(model);
         } else {
-          _this.set('model.'+name, model);
+          _this.set('model.' + name, model);
         }
       });
     }

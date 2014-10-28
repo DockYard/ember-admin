@@ -3,7 +3,7 @@
 
   <form>
     {{#each column in filteredColumns}}
-    <div {{bind-attr class=":model-column column"}}>
+      <div {{bind-attr class=':model-column column'}}>
         <label>
           {{column}}
           {{admin-input record=this columnValue=column}}
@@ -11,9 +11,9 @@
       </div>
     {{/each}}
 
-    {{async-button action="save" default="Save" pending="Saving..." fulfilled="Saved" rejected="Error" class="save"}}
-    {{async-button action="destroyRecord" default="Delete" pending="Deleting..." fulfilled="Deleted" class="delete"}}
-    <button {{action "cancel"}} class="cancel">Cancel</button>
+    {{async-button action='save' default='Save' pending='Saving...' fulfilled='Saved' rejected='Error' class='save'}}
+    {{async-button action='destroyRecord' default='Delete' pending='Deleting...' fulfilled='Deleted' class='delete'}}
+    <button {{action 'cancel'}} class="cancel">Cancel</button>
   </form>
 
   <div class="relationships">
