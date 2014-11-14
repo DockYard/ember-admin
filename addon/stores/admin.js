@@ -18,6 +18,7 @@ export default DS.Store.extend({
       namespaces.push(adminService.namespace);
 
       var namespace = namespaces.join('/');
+      namespace = namespace.replace(/\/$/, '');
 
       if (Ember.isEmpty(namespace)) {
         namespace = undefined;

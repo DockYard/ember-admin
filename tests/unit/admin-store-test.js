@@ -4,6 +4,7 @@ import AdminStore from 'ember-admin/stores/admin';
 import AdminService from 'dummy/services/admin';
 
 var oldNamespace, adminStore, adminService;
+var set = Ember.set;
 
 module('Admin Store', {
   setup: function() {
@@ -21,8 +22,8 @@ module('Admin Store', {
         }
       }
     });
-    adminStore.set('defaultAdapter', DS.RESTAdapter.create());
-    adminStore.set('admin', adminService);
+    set(adminStore, 'defaultAdapter', DS.RESTAdapter.create());
+    set(adminStore, 'admin', adminService);
   }
 });
 
@@ -32,7 +33,7 @@ test('defaults to "api" namespace', function() {
 });
 
 test('appends ember-admin\'s namespace to the end of the adapter namespaces', function() {
-  adminStore.set('defaultAdapter', DS.RESTAdapter.create({namespace: 'api/v1'}));
+  set(adminStore, 'defaultAdapter', DS.RESTAdapter.create({namespace: 'api/v1'}));
   var adapter = adminStore.adapterFor('dog');
   equal(adapter.namespace, 'api/v1/admin');
 });
@@ -47,4 +48,11 @@ test('allow `null` namespace', function() {
   adminService.namespace = undefined;
   var adapter = adminStore.adapterFor('dog');
   equal(adapter.namespace, undefined);
+});
+
+test('empty admin namespace does not add tralining slash to adapter namespace', function() {
+  set(adminStore, 'defaultAdapter', DS.RESTAdapter.create({namespace: 'api/v1'}));
+  adminService.namespace = '';
+  var adapter = adminStore.adapterFor('dog');
+  equal(adapter.namespace, 'api/v1');
 });
