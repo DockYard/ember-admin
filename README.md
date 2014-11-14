@@ -53,7 +53,7 @@ used by EmberAdmin is properly restricted to authorized users.
 
 ### Backend ###
 
-EmberAdmin expects to access all of your models under an `admin/`
+EmberAdmin expects as a default to access all of your models under an `admin/`
 namespaced API. EmberAdmin will take the adapter for your model and
 append `admin` to the current namespace. So if your `Dog` model's URL is typically:
 `/api/dogs` EmberAdmin will try `/api/admin/dogs`. You will need to
@@ -89,6 +89,22 @@ override:
 Just replace `:model` with the name of your model. EmberAdmin will
 always attempt to resolve a model-specific template before rendering the
 more generic one.
+
+#### Namespace ####
+
+If you want to access your models under a different namespace
+override `app/services/admin.js` in the following way:
+
+```js
+import Ember from 'ember';
+import EmberAdminServiceAdminMixin from 'ember-admin/mixins/services/admin';
+
+export default Ember.Object.extend(EmberAdminServiceAdminMixin, {
+  namespace: 'custom'
+});
+```
+So if your `Dog` model's URL is typically:
+`/api/dogs` EmberAdmin will now try `/api/custom/dogs`.
 
 #### Including / Excluding Models ####
 
