@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 import { rowValuesEqual, inputPropertiesEqual } from '../helpers/equality-helpers';
 import { fillInByLabel, fillInByPlaceholder } from '../helpers/fill-in-by';
@@ -74,17 +75,17 @@ module('Acceptance: Admin', {
   }
 });
 
-test('listing all models', function() {
+test('listing all models', function(assert) {
   visit('/admin');
 
   andThen(function() {
     var links = find('a');
-    equal(links.first().text(), 'bird');
-    equal(links.last().text(), 'toy');
+    assert.equal(links.first().text(), 'bird');
+    assert.equal(links.last().text(), 'toy');
   });
 });
 
-test('viewing a model\'s records', function() {
+test('viewing a model\'s records', function(assert) {
   visit('/admin');
 
   andThen(function() {
@@ -95,13 +96,13 @@ test('viewing a model\'s records', function() {
   andThen(function() {
     var rows = find('.cat table tr');
 
-    rowValuesEqual(rows.eq(0), 'id', 'name', 'age', 'foo', 'bar', 'baz');
-    rowValuesEqual(rows.eq(1), '1', 'Felix', '10', '', '', '');
-    rowValuesEqual(rows.eq(2), '2', 'Nyan', '3', '', '', '');
+    rowValuesEqual(assert, rows.eq(0), 'id', 'name', 'age', 'foo', 'bar', 'baz');
+    rowValuesEqual(assert, rows.eq(1), '1', 'Felix', '10', '', '', '');
+    rowValuesEqual(assert, rows.eq(2), '2', 'Nyan', '3', '', '', '');
   });
 });
 
-test('filtering records by value', function() {
+test('filtering records by value', function(assert) {
   visit('/admin/cat');
 
   andThen(function() {
@@ -111,13 +112,13 @@ test('filtering records by value', function() {
   andThen(function() {
     var rows = find('.cat table tr');
 
-    rowValuesEqual(rows.eq(0), 'id', 'name', 'age', 'foo', 'bar', 'baz');
-    rowValuesEqual(rows.eq(1), '1', 'Felix', '10', '', '', '');
-    ok(Ember.isEmpty(rows.eq(2)), 'third row should not exist');
+    rowValuesEqual(assert, rows.eq(0), 'id', 'name', 'age', 'foo', 'bar', 'baz');
+    rowValuesEqual(assert, rows.eq(1), '1', 'Felix', '10', '', '', '');
+    assert.ok(Ember.isEmpty(rows.eq(2)), 'third row should not exist');
   });
 });
 
-test('editing a record', function() {
+test('editing a record', function(assert) {
   visit('/admin/cat');
 
   andThen(function() {
@@ -136,11 +137,11 @@ test('editing a record', function() {
 
   andThen(function() {
     var rows = find('.cat table tr');
-    rowValuesEqual(rows.eq(1), '1', 'Hobbes', '29', '', '', '');
+    rowValuesEqual(assert, rows.eq(1), '1', 'Hobbes', '29', '', '', '');
   });
 });
 
-test('creating a new record', function() {
+test('creating a new record', function(assert) {
   visit('/admin/cat');
 
   andThen(function() {
@@ -159,11 +160,11 @@ test('creating a new record', function() {
 
   andThen(function() {
     var rows = find('.cat table tr');
-    rowValuesEqual(rows.eq(3), '3', 'Lion-O', '30', '', '', '');
+    rowValuesEqual(assert, rows.eq(3), '3', 'Lion-O', '30', '', '', '');
   });
 });
 
-test('creating doesn\'t affect list', function() {
+test('creating doesn\'t affect list', function(assert) {
   visit('/admin/cat');
 
   var rows;
@@ -180,11 +181,11 @@ test('creating doesn\'t affect list', function() {
 
   andThen(function() {
     var newRows = find('.cat tr');
-    equal(rows.length, newRows.length, 'Number of rows unaffected');
+    assert.equal(rows.length, newRows.length, 'Number of rows unaffected');
   });
 });
 
-test('deleting a record & confirming', function() {
+test('deleting a record & confirming', function(assert) {
   var confirmCount = 0;
   var oldConfirm = window.confirm;
   window.confirm = function() { confirmCount = 1; return true; };
@@ -199,13 +200,13 @@ test('deleting a record & confirming', function() {
 
   andThen(function() {
     var rows = find('.cat table tr');
-    rowValuesEqual(rows.eq(1), '2', 'Nyan', '3', '', '', '');
-    equal(confirmCount, 1);
+    rowValuesEqual(assert, rows.eq(1), '2', 'Nyan', '3', '', '', '');
+    assert.equal(confirmCount, 1);
     window.confirm = oldConfirm;
   });
 });
 
-test('deleting a record & not confirming', function() {
+test('deleting a record & not confirming', function(assert) {
   var confirmCount = 0;
   var oldConfirm = window.confirm;
   window.confirm = function() { return false; };
@@ -219,23 +220,23 @@ test('deleting a record & not confirming', function() {
   andThen(function() {});
 
   andThen(function() {
-    equal(currentURL(), '/admin/cat/1/edit');
+    assert.equal(currentURL(), '/admin/cat/1/edit');
     window.confirm = oldConfirm;
   });
 });
 
-test('canceling edit', function() {
+test('canceling edit', function(assert) {
   visit('/admin/cat/1/edit');
   andThen(function() {
     click(find('button.cancel'));
   });
 
   andThen(function() {
-    equal(currentURL(), '/admin/cat');
+    assert.equal(currentURL(), '/admin/cat');
   });
 });
 
-test('canceling new', function() {
+test('canceling new', function(assert) {
   var oldConfirm = window.confirm;
   window.confirm = function() { return true; };
 
@@ -245,36 +246,36 @@ test('canceling new', function() {
   });
 
   andThen(function() {
-    equal(currentURL(), '/admin/cat');
+    assert.equal(currentURL(), '/admin/cat');
     window.confirm = oldConfirm;
   });
 });
 
-test('excluding models', function() {
+test('excluding models', function(assert) {
   var adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('excludedModels', ['cat']);
 
   visit('/admin');
 
   andThen(function() {
-    equal(find('a:contains("cat")')[0], undefined);
+    assert.equal(find('a:contains("cat")')[0], undefined);
     adminSettings.set('excludedModels', null);
   });
 });
 
-test('including models', function() {
+test('including models', function(assert) {
   var adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('includedModels', ['dog']);
 
   visit('/admin');
 
   andThen(function() {
-    equal(find('a:contains("cat")')[0], undefined);
+    assert.equal(find('a:contains("cat")')[0], undefined);
     adminSettings.set('includedModels', null);
   });
 });
 
-test('including & excluding model', function() {
+test('including & excluding model', function(assert) {
   var adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('includedModels', ['cat', 'dog']);
   adminSettings.set('excludedModels', ['cat']);
@@ -282,13 +283,13 @@ test('including & excluding model', function() {
   visit('/admin');
 
   andThen(function() {
-    equal(find('a:contains("cat")')[0], undefined);
+    assert.equal(find('a:contains("cat")')[0], undefined);
     adminSettings.set('includedModels', null);
     adminSettings.set('excludedModels', null);
   });
 });
 
-test('including model columns', function() {
+test('including model columns', function(assert) {
   var adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('includedColumns', {
     'cat': ['name']
@@ -298,22 +299,22 @@ test('including model columns', function() {
 
   andThen(function() {
     var rows = find('.cat table tr');
-    rowValuesEqual(rows.eq(0), 'id', 'name');
-    rowValuesEqual(rows.eq(1), '1', 'Felix');
-    rowValuesEqual(rows.eq(2), '2', 'Nyan');
+    rowValuesEqual(assert, rows.eq(0), 'id', 'name');
+    rowValuesEqual(assert, rows.eq(1), '1', 'Felix');
+    rowValuesEqual(assert, rows.eq(2), '2', 'Nyan');
 
     visit('/admin/cat/1/edit');
   });
 
   andThen(function() {
     var inputs = find('input[type="text"]:not([placeholder="Filter"])');
-    inputPropertiesEqual(inputs, 'name');
+    inputPropertiesEqual(assert, inputs, 'name');
 
     adminSettings.set('includedColumns', null);
   });
 });
 
-test('excluding model columns', function() {
+test('excluding model columns', function(assert) {
   var adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('excludedColumns', {
     'cat': ['name']
@@ -323,39 +324,39 @@ test('excluding model columns', function() {
 
   andThen(function() {
     var rows = find('.cat table tr');
-    rowValuesEqual(rows.eq(0), 'id', 'age', 'foo', 'bar', 'baz');
-    rowValuesEqual(rows.eq(1), '1', '10', '', '', '');
-    rowValuesEqual(rows.eq(2), '2', '3', '', '', '');
+    rowValuesEqual(assert, rows.eq(0), 'id', 'age', 'foo', 'bar', 'baz');
+    rowValuesEqual(assert, rows.eq(1), '1', '10', '', '', '');
+    rowValuesEqual(assert, rows.eq(2), '2', '3', '', '', '');
 
     visit('/admin/cat/1/edit');
   });
 
   andThen(function() {
     var inputs = find('input[type="text"]:not([placeholder="Filter"])');
-    inputPropertiesEqual(inputs, 'age', 'foo', 'bar', 'baz');
+    inputPropertiesEqual(assert, inputs, 'age', 'foo', 'bar', 'baz');
 
     adminSettings.set('excludedColumns', null);
   });
 });
 
-test('can override index template', function() {
+test('can override index template', function(assert) {
   visit('/admin/dog');
   andThen(function() {
-    equal(find('h3.index').text(), 'Dogs Index');
+    assert.equal(find('h3.index').text(), 'Dogs Index');
   });
 });
 
-test('can override new template', function() {
+test('can override new template', function(assert) {
   visit('/admin/dog/new');
   andThen(function() {
-    equal(find('h3.new').text(), 'Dogs New');
+    assert.equal(find('h3.new').text(), 'Dogs New');
   });
 });
 
-test('can override edit template', function() {
+test('can override edit template', function(assert) {
   visit('/admin/dog/1/edit');
   andThen(function() {
-    equal(find('h3.edit').text(), 'Dogs Edit');
+    assert.equal(find('h3.edit').text(), 'Dogs Edit');
   });
 });
 
@@ -397,6 +398,11 @@ module('Acceptance: Admin Relationships', {
         toy.id = 3;
         return [200, {"Content-Type": "application/json"}, JSON.stringify({toys: [toy]})];
       });
+      this.post('/admin/courses', function(request) {
+        var course = JSON.parse(request.requestBody).course;
+        course.id = 3;
+        return [200, {"Content-Type": "application/json"}, JSON.stringify({courses: [course]})];
+      });
       this.get('/admin/toys', function() {
         var toys = [
           { id: 1, name: "Ball", cat: 1 },
@@ -432,22 +438,22 @@ module('Acceptance: Admin Relationships', {
   }
 });
 
-test('should list relationships', function() {
+test('should list relationships', function(assert) {
   visit('/admin/cat/1/edit');
 
   andThen(function() {
     var ownerRows = find('.owner table tr');
-    rowValuesEqual(ownerRows.eq(0), 'id', 'name');
-    rowValuesEqual(ownerRows.eq(1), '1', 'Pat Sullivan');
+    rowValuesEqual(assert, ownerRows.eq(0), 'id', 'name');
+    rowValuesEqual(assert, ownerRows.eq(1), '1', 'Pat Sullivan');
 
     var toyRows = find('.toy table tr');
-    rowValuesEqual(toyRows.eq(0), 'id', 'name');
-    rowValuesEqual(toyRows.eq(1), '1', 'Ball');
-    rowValuesEqual(toyRows.eq(2), '2', 'Mouse');
+    rowValuesEqual(assert, toyRows.eq(0), 'id', 'name');
+    rowValuesEqual(assert, toyRows.eq(1), '1', 'Ball');
+    rowValuesEqual(assert, toyRows.eq(2), '2', 'Mouse');
   });
 });
 
-test('should create new model as a relationship to parent', function() {
+test('should create new model as a relationship to parent', function(assert) {
   visit('/admin/cat/1/edit');
 
   andThen(function() {
@@ -469,36 +475,36 @@ test('should create new model as a relationship to parent', function() {
 
   andThen(function() {
     var toyRows = find('.toy table tr');
-    rowValuesEqual(toyRows.eq(3), '3', 'Bell');
+    rowValuesEqual(assert, toyRows.eq(3), '3', 'Bell');
   });
 });
 
-test('should not display "Create" if singular relationship model exists', function() {
+test('should not display "Create" if singular relationship model exists', function(assert) {
   visit('/admin/cat/1/edit');
 
   andThen(function() {
     var createLink = find('.owner a:contains("Create")');
-    equal(0, createLink.length, 'should not find the Create link');
+    assert.equal(0, createLink.length, 'should not find the Create link');
   });
 });
 
-test('should not display "Create" if no inverse relationship exists', function() {
+test('should not display "Create" if no inverse relationship exists', function(assert) {
   visit('/admin/bird/1/edit');
 
   andThen(function() {
     var toysTable = find('.toy');
-    equal(1, toysTable.length, 'should find the toy relationship table');
+    assert.equal(1, toysTable.length, 'should find the toy relationship table');
     var createLink = find('.toy a:contains("Create")');
-    equal(0, createLink.length, 'should not find the Create link');
+    assert.equal(0, createLink.length, 'should not find the Create link');
   });
 });
 
-test('should properly create Many-to-Many relationship with inverse', function() {
+test('should properly create Many-to-Many relationship with inverse', function(assert) {
   visit('/admin/owner/1/edit');
 
   andThen(function() {
     var coursesTable = find('.course');
-    equal(1, coursesTable.length, 'should find the course relationship table');
+    assert.equal(1, coursesTable.length, 'should find the course relationship table');
     click('.course a:contains("Create")');
   });
 
