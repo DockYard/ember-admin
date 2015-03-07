@@ -1,4 +1,3 @@
-import Ember from 'ember';
-import EmberAdminRouteModelRecordsEditMixin from 'ember-admin/mixins/routes/model-records/edit';
+import EmberAdminRouteModelRecordsEdit from 'ember-admin/routes/model-records/edit';
 
-export default Ember.Route.extend(EmberAdminRouteModelRecordsEditMixin);
+export default EmberAdminRouteModelRecordsEdit.extend();

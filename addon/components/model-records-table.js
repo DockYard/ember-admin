@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import ColumnsMixin from 'ember-admin/mixins/controllers/model-records/columns';
+import ColumnsMixin from 'ember-admin/mixins/model-records/columns';
 
-export default Ember.Mixin.create(ColumnsMixin, {
+export default Ember.Component.extend(ColumnsMixin, {
   includedColumns: ['id'],
   defaultLayout: Ember.computed(function() {
     var templatePath = 'admin/index/' + this.get('recordType');

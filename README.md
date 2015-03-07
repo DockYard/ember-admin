@@ -39,9 +39,9 @@ you should override the `admin` route `app/routes/admin.js`
 
 ```js
 import Ember from 'ember';
-import EmberAdminRouteAdminMixin from 'ember-admin/mixins/routes/admin';
+import EmberAdminRouteAdmin from 'ember-admin/routes/admin';
 
-export default Ember.Route.extend(EmberAdminRouteAdminMixin, {
+export default EmberAdminRouteAdmin.extend({
 
 });
 ```
@@ -97,9 +97,9 @@ override `app/services/admin.js` in the following way:
 
 ```js
 import Ember from 'ember';
-import EmberAdminServiceAdminMixin from 'ember-admin/mixins/services/admin';
+import EmberAdminServiceAdmin from 'ember-admin/services/admin';
 
-export default Ember.Object.extend(EmberAdminServiceAdminMixin, {
+export default EmberAdminServiceAdmin.extend({
   namespace: 'custom'
 });
 ```
@@ -115,9 +115,9 @@ with the Admin Service object. You will need to override
 
 ```js
 import Ember from 'ember';
-import EmberAdminServiceAdminMixin from 'ember-admin/mixins/services/admin';
+import EmberAdminServiceAdmin from 'ember-admin/services/admin';
 
-export default Ember.Object.extend(EmberAdminServiceAdminMixin, {
+export default EmberAdminServiceAdmin.extend({
   includedModels: null,
   excludedModels: null
 });
