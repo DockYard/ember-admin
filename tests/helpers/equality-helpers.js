@@ -1,8 +1,7 @@
 export { rowValuesEqual, inputPropertiesEqual };
 
-function rowValuesEqual (assert) {
-  var row = arguments[0];
-  var values = Array.prototype.slice.call(arguments, 1, arguments.length);
+function rowValuesEqual (assert, row) {
+  var values = Array.prototype.slice.call(arguments, 2, arguments.length);
   var columns = row.find('th, td');
   var columnText;
 
@@ -14,9 +13,8 @@ function rowValuesEqual (assert) {
   }
 }
 
-function inputPropertiesEqual(assert) {
-  var inputs = arguments[0];
-  var values = Array.prototype.slice.call(arguments, 1, arguments.length);
+function inputPropertiesEqual(assert, inputs) {
+  var values = Array.prototype.slice.call(arguments, 2, arguments.length);
   var labelText;
 
   assert.equal(inputs.length, values.length, 'expected ' + values.length + ' inputs: (' + values.join(', ') + ')');
