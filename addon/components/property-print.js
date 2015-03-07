@@ -1,12 +1,28 @@
 import Ember from 'ember';
+import layout from '../templates/property-print';
 
 var get = Ember.get;
+var computed = Ember.computed;
+var observer = Ember.observer;
+var addObserver = Ember.addObserver;
 
 export default Ember.Component.extend({
-  defaultLayout: function(context, options){
-    var path = 'record.' + get(context, 'column');
+  setupCellObsever: observer('record', 'column', function() {
+    var record = get(this, 'record');
+    var column = get(this, 'column');
 
-    options.hash = {};
-    Ember.Handlebars.helpers['bind'].call(context, path, options);
-  }
+    if (!record || !column) { return; } // might want to teardown
+
+    addObserver(this, 'record.' + column, this, this._updateCell);
+  }).on('init')
+
+  _updateCell: function() {
+    var record = get(this, 'record');
+    var column = get(this, 'column');
+    var value = get(record, column);
+
+    set(this, 'cellValue', value);
+  },
+
+  defaultLayout: layout
 });
