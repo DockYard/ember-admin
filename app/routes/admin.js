@@ -1,4 +1,3 @@
-import Ember from 'ember';
-import EmberAdminRouteAdminMixin from 'ember-admin/mixins/routes/admin';
+import EmberAdminRouteAdmin from 'ember-admin/routes/admin';
 
-export default Ember.Route.extend(EmberAdminRouteAdminMixin);
+export default EmberAdminRouteAdmin.extend();

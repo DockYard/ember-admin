@@ -1,8 +1,8 @@
 import Ember from 'ember';
-import RecordTypeMixin from 'ember-admin/mixins/controllers/model-records/record-type';
-import ColumnsMixin from 'ember-admin/mixins/controllers/model-records/columns';
+import RecordTypeMixin from 'ember-admin/mixins/model-records/record-type';
+import ColumnsMixin from 'ember-admin/mixins/model-records/columns';
 
-export default Ember.Mixin.create(RecordTypeMixin, ColumnsMixin, {
+export default Ember.ObjectController.extend(RecordTypeMixin, ColumnsMixin, {
   excludedColumns: ['id'],
   queryParams: ['relationship-name', 'relationship-id'],
   'relationship-name': null,

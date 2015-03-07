@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import RecordTypeMixin from 'ember-admin/mixins/controllers/model-records/model-record';
+import RecordTypeMixin from 'ember-admin/mixins/model-records/model-record';
 
 var get    = Ember.get;
 var filter = Ember.computed.filter;
