@@ -9,7 +9,7 @@ export default Ember.Route.extend(WriteMixin, {
   actions: {
     destroyRecord: function(callback) {
       var _this = this;
-      var canDestroy = window.confirm("Are you sure you want to destory this record?");
+      var canDestroy = window.confirm("Are you sure you want to destroy this record?");
       var promise;
 
       if (canDestroy) {
