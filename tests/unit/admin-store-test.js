@@ -16,6 +16,7 @@ module("Admin store", {
     adminStore = App.__container__.lookup('store:admin');
   },
   teardown: function(){
+    App.registry = App.buildRegistry();
     App.reset();
   }
 });
