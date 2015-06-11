@@ -1,30 +1,22 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
 import DS from 'ember-data';
-import AdminStore from 'ember-admin/stores/admin';
-import AdminService from 'dummy/services/admin';
+import startApp from '../helpers/start-app';
 
 var oldNamespace, adminStore, adminService;
 var set = Ember.set;
 
-module('Admin Store', {
-  setup: function() {
-    adminService = AdminService.create({
-      container: {
-        lookup: Ember.K
-      }
-    });
-    adminStore = AdminStore.create({
-      container: {
-        lookup: function(fullName) {
-          if (fullName === 'service:admin') {
-            return adminService;
-          }
-        }
-      }
-    });
-    set(adminStore, 'defaultAdapter', DS.RESTAdapter.create());
-    set(adminStore, 'admin', adminService);
+
+var App;
+
+module("Admin store", {
+  setup: function(){
+    App = startApp();
+    adminService = App.__container__.lookup('service:admin');
+    adminStore = App.__container__.lookup('store:admin');
+  },
+  teardown: function(){
+    App.reset();
   }
 });
 
