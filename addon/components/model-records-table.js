@@ -5,7 +5,7 @@ export default Ember.Component.extend(ColumnsMixin, {
   includedColumns: ['id'],
   defaultLayout: Ember.computed(function() {
     var templatePath = 'admin/index/' + this.get('recordType');
-    if (!this.container.resolve('template:'+templatePath)) {
+    if (!this.container.has('template:'+templatePath)) {
        templatePath = 'admin/index/default';
     }
 
