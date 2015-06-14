@@ -5,8 +5,8 @@ export default Ember.Mixin.create(EmberDataRouteMixin, {
   renderTemplate: function() {
     var templatePath = [this.templateAdminPath, this.paramsFor('model-records').name].join('/');
     var defaultTemplatePath = [this.templateAdminPath, 'default'].join('/');
-
-    if (this.container.has('template:'+templatePath)) {
+    
+    if (this.container.lookupFactory('template:'+templatePath)) {
       this.render(templatePath);
     } else {
       this.render(defaultTemplatePath);
