@@ -10,9 +10,9 @@ export default Ember.TextField.extend({
     var record = get(this, 'record');
 
     if (arguments.length > 1) {
-      set(record, columnValue, value);
+      set(record, 'model.'+columnValue, value);
     }
 
-    return get(record, columnValue);
+    return get(record, 'model.'+columnValue);
   })
 });
