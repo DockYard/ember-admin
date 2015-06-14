@@ -1,6 +1,6 @@
 <div class="ember-admin">
   <h2>Admin</h2>
-  {{#each filteredModels as |name|}}
+  {{#each filteredModels key="@index" as |name|}}
     {{link-to name 'model-records' name}}
   {{/each}}
   {{outlet}}
