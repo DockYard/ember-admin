@@ -40,9 +40,10 @@ export default Ember.Component.extend(ColumnsMixin, {
       if (Ember.isNone(relationshipName)) {
         return true;
       } else {
-        var constructor = this.admin.store.modelFor(this.get('recordType'));
-        var kind = constructor.inverseFor(relationshipName).kind;
-
+        var store = this.admin.store;
+        var constructor = store.modelFor(this.get('recordType'));
+        var inverseFor = constructor.inverseFor(relationshipName, store);
+        var kind = inverseFor.kind;
         if (kind && kind === 'belongsTo' && this.get('records.length') > 0) {
           return true;
         }

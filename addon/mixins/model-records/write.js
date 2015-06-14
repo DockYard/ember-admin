@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import EmberDataRouteMixin from 'ember-data-route/mixins/data-route';
+import EmberDataRouteMixin from 'ember-data-route';
 
 export default Ember.Mixin.create(EmberDataRouteMixin, {
   renderTemplate: function() {

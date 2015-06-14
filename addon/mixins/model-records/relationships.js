@@ -19,8 +19,9 @@ function relationshipMacro(type) {
           records = Ember.A([records]);
         }
 
+        var store = _this.container.lookup.get('store:admin');
         var constructor = _this.get('model.constructor');
-        var inverse = constructor.inverseFor(property);
+        var inverse = constructor.inverseFor(property, store);
 
         relationships.pushObject({
           name:    property,
