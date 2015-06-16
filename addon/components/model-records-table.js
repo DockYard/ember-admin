@@ -49,5 +49,6 @@ export default Ember.Component.extend(ColumnsMixin, {
         }
       }
     }
+    return false;
   })
 });

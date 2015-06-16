@@ -22,11 +22,12 @@ function relationshipMacro(type) {
         var store = _this.container.lookup('store:admin');
         var constructor = _this.get('model.constructor');
         var inverse = constructor.inverseFor(property, store);
+        var meta = constructor.metaForProperty(property);
 
         relationships.pushObject({
           name:    property,
           records: records,
-          type:    constructor.metaForProperty(property).type,
+          type:    meta.type,
           inverse: inverse && inverse.name
         });
       });
