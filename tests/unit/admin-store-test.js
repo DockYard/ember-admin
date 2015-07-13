@@ -27,7 +27,9 @@ test('defaults to "api" namespace', function(assert) {
 });
 
 test('appends ember-admin\'s namespace to the end of the adapter namespaces', function(assert) {
-  set(adminStore, 'defaultAdapter', DS.RESTAdapter.create({namespace: 'api/v1'}));
+  set(adminStore, 'lookupAdapter', function(){
+    return DS.RESTAdapter.create({namespace: 'api/v1'});
+  });
   var adapter = adminStore.adapterFor('dog');
   assert.equal(adapter.namespace, 'api/v1/admin');
 });
@@ -45,7 +47,9 @@ test('allow `null` namespace', function(assert) {
 });
 
 test('empty admin namespace does not add tralining slash to adapter namespace', function(assert) {
-  set(adminStore, 'defaultAdapter', DS.RESTAdapter.create({namespace: 'api/v1'}));
+  set(adminStore, 'lookupAdapter', function(){
+    return DS.RESTAdapter.create({namespace: 'api/v1'});
+  });
   adminService.namespace = '';
   var adapter = adminStore.adapterFor('dog');
   assert.equal(adapter.namespace, 'api/v1');
