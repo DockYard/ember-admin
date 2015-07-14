@@ -10,9 +10,12 @@ function columnContains(columnType, parameter) {
 
 export default Ember.Mixin.create(RecordTypeMixin, {
   columns: Ember.computed('model', function() {
-    var klass = this.get('container').lookup('data-adapter:main').getModelTypes().findBy('name', this.get('recordType')).klass;
+    const adapter = this.get('container').lookup('data-adapter:main');
+    const recordType = this.get('recordType');
+    const type = adapter.getModelTypes().findBy('name', recordType);
+    const klass = type.klass;
 
-    var keys = Ember.A(['id']);
+    const keys = Ember.A(['id']);
 
     klass.eachAttribute(function(key) {
       keys.push(key);
@@ -22,12 +25,12 @@ export default Ember.Mixin.create(RecordTypeMixin, {
   }),
 
   filteredColumns: filter('columns', function(name) {
-    var modelName            = get(this, 'model-record.name');
-    var adminIncludedColumns = this.admin.includedColumns;
-    var adminExcludedColumns = this.admin.excludedColumns;
-    var includedColumns      = this.includedColumns;
-    var excludedColumns      = this.excludedColumns;
-    var allowColumn          = true;
+    const modelName            = get(this, 'model-record.name');
+    const adminIncludedColumns = this.admin.includedColumns;
+    const adminExcludedColumns = this.admin.excludedColumns;
+    const includedColumns      = this.includedColumns;
+    const excludedColumns      = this.excludedColumns;
+    var allowColumn            = true;
 
     if (adminIncludedColumns) {
       if (columnContains(adminIncludedColumns[modelName], name)) {

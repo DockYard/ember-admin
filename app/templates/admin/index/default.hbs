@@ -11,15 +11,15 @@
   <table>
     <thead>
       <tr>
-        {{#each column in filteredColumns}}
+        {{#each filteredColumns key="@index" as |column|}}
           <th>{{column}}</th>
         {{/each}}
       </tr>
     </thead>
     <tbody>
-      {{#each record in filteredRecords}}
+      {{#each filteredRecords key="@index" as |record|}}
         <tr>
-          {{#each column in filteredColumns}}
+          {{#each filteredColumns key="@index" as |column|}}
           <td>
             {{#link-to 'model-records.edit' recordType record}}
               {{property-print record=record column=column}}

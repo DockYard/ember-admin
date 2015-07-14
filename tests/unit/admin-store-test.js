@@ -1,30 +1,23 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
 import DS from 'ember-data';
-import AdminStore from 'ember-admin/stores/admin';
-import AdminService from 'dummy/services/admin';
+import startApp from '../helpers/start-app';
 
 var oldNamespace, adminStore, adminService;
 var set = Ember.set;
 
-module('Admin Store', {
-  setup: function() {
-    adminService = AdminService.create({
-      container: {
-        lookup: Ember.K
-      }
-    });
-    adminStore = AdminStore.create({
-      container: {
-        lookup: function(fullName) {
-          if (fullName === 'service:admin') {
-            return adminService;
-          }
-        }
-      }
-    });
-    set(adminStore, 'defaultAdapter', DS.RESTAdapter.create());
-    set(adminStore, 'admin', adminService);
+
+var App;
+
+module("Admin store", {
+  setup: function(){
+    App = startApp();
+    adminService = App.__container__.lookup('service:admin');
+    adminStore = App.__container__.lookup('store:admin');
+  },
+  teardown: function(){
+    App.registry = App.buildRegistry();
+    App.reset();
   }
 });
 
@@ -34,7 +27,9 @@ test('defaults to "api" namespace', function(assert) {
 });
 
 test('appends ember-admin\'s namespace to the end of the adapter namespaces', function(assert) {
-  set(adminStore, 'defaultAdapter', DS.RESTAdapter.create({namespace: 'api/v1'}));
+  set(adminStore, 'lookupAdapter', function(){
+    return DS.RESTAdapter.create({namespace: 'api/v1'});
+  });
   var adapter = adminStore.adapterFor('dog');
   assert.equal(adapter.namespace, 'api/v1/admin');
 });
@@ -52,7 +47,9 @@ test('allow `null` namespace', function(assert) {
 });
 
 test('empty admin namespace does not add tralining slash to adapter namespace', function(assert) {
-  set(adminStore, 'defaultAdapter', DS.RESTAdapter.create({namespace: 'api/v1'}));
+  set(adminStore, 'lookupAdapter', function(){
+    return DS.RESTAdapter.create({namespace: 'api/v1'});
+  });
   adminService.namespace = '';
   var adapter = adminStore.adapterFor('dog');
   assert.equal(adapter.namespace, 'api/v1');

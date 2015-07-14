@@ -2,7 +2,7 @@
   <h2>Edit {{id}}</h2>
 
   <form>
-    {{#each column in filteredColumns}}
+    {{#each filteredColumns key="@index" as |column|}}
     <div {{bind-attr class=":model-column column"}}>
         <label>
           {{column}}
@@ -19,10 +19,10 @@
   <div class="relationships">
     <h2>Relationships</h2>
 
-    {{#each relationshipType in relationshipTypes}}
-      {{#each relationship in relationshipType}}
+    {{#each relationshipTypes key="@index" as |relationshipType|}}
+      {{#each relationshipType key="@index" as |relationship|}}
         <h4>{{relationship.name}}</h4>
-        {{model-records-table recordType=relationship.type records=relationship.records relationshipName=relationship.inverse relationshipId=id}}
+        {{model-records-table recordType=relationship.type records=relationship.records relationshipName=relationship.inverse relationshipId=model.id}}
       {{/each}}
     {{/each}}
   </div>

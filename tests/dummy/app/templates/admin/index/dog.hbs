@@ -1,5 +1,5 @@
 <h3 class='index'>Dogs Index</h3>
 
-{{#each dog in model}}
+{{#each model key="@index" as |dog|}}
   <div class="name">Name: {{dog.name}}</div>
 {{/each}}
