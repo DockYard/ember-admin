@@ -2,8 +2,8 @@
   <h2>Create</h2>
 
   <form>
-    {{#each column in filteredColumns}}
-      <div {{bind-attr class=":model-column column"}}>
+    {{#each filteredColumns as |column|}}
+      <div class="model-column {{column}}">
         <label>
           {{column}}
           {{admin-input record=this columnValue=column}}

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.ArrayController.extend({
+export default Ember.Controller.extend({
   filteredModels: Ember.computed(function() {
     var includedModels = this.admin.includedModels;
     var excludedModels = this.admin.excludedModels;

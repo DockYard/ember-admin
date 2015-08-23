@@ -1,15 +1,15 @@
 import Ember from 'ember';
 import layout from '../templates/property-print';
 
-var get = Ember.get;
-var set = Ember.set;
-var observer = Ember.observer;
-var addObserver = Ember.addObserver;
+const get = Ember.get;
+const set = Ember.set;
+const observer = Ember.observer;
+const addObserver = Ember.addObserver;
 
 export default Ember.Component.extend({
   setupCellObsever: observer('record', 'column', function() {
-    var record = get(this, 'record');
-    var column = get(this, 'column');
+    const record = get(this, 'record');
+    const column = get(this, 'column');
 
     if (!record || !column) { return; } // might want to teardown
 
@@ -18,9 +18,9 @@ export default Ember.Component.extend({
   }).on('init'),
 
   _updateCell: function() {
-    var record = get(this, 'record');
-    var column = get(this, 'column');
-    var value = get(record, column);
+    const record = get(this, 'record');
+    const column = get(this, 'column');
+    const value = get(record, column);
 
     set(this, 'cellValue', value);
   },

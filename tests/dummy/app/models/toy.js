@@ -2,5 +2,5 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
-  cat: DS.belongsTo('cat')
+  cat: DS.belongsTo('cat', {async: true})
 });
