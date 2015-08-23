@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 function relationshipMacro(type) {
   return Ember.computed('recordType', 'id', function() {
-    var _this = this;
+    const _this = this;
 
     return this.get('model')._debugInfo().propertyInfo.groups.filter(function(group) {
       if (group.name === type) {
@@ -19,13 +19,15 @@ function relationshipMacro(type) {
           records = Ember.A([records]);
         }
 
-        var constructor = _this.get('model.constructor');
-        var inverse = constructor.inverseFor(property);
+        const store = _this.container.lookup('store:admin');
+        const constructor = _this.get('model.constructor');
+        const inverse = constructor.inverseFor(property, store);
+        const meta = constructor.metaForProperty(property);
 
         relationships.pushObject({
           name:    property,
           records: records,
-          type:    constructor.metaForProperty(property).type,
+          type:    meta.type,
           inverse: inverse && inverse.name
         });
       });

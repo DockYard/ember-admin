@@ -6,6 +6,6 @@ export default DS.Model.extend({
   foo:   DS.attr('string'),
   bar:   DS.attr('string'),
   baz:   DS.attr('string'),
-  toys:  DS.hasMany('toy'),
-  owner: DS.belongsTo('owner')
+  toys:  DS.hasMany('toy', {async: true}),
+  owner: DS.belongsTo('owner', {async: true})
 });

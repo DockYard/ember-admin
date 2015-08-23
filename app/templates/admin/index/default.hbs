@@ -1,4 +1,4 @@
-<div {{bind-attr class="recordType :index"}}>
+<div class="{{recordType}} index">
   {{input value=filter placeholder="Filter"}}
   {{#unless hideCreate}}
     {{#if relationshipGiven}}
@@ -11,15 +11,15 @@
   <table>
     <thead>
       <tr>
-        {{#each column in filteredColumns}}
+        {{#each filteredColumns as |column|}}
           <th>{{column}}</th>
         {{/each}}
       </tr>
     </thead>
     <tbody>
-      {{#each record in filteredRecords}}
+      {{#each filteredRecords as |record|}}
         <tr>
-          {{#each column in filteredColumns}}
+          {{#each filteredColumns as |column|}}
           <td>
             {{#link-to 'model-records.edit' recordType record}}
               {{property-print record=record column=column}}
