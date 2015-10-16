@@ -1,15 +1,23 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-export default DS.Store.extend({
-  adapterFor: function(type) {
+const {
+  isEmpty
+} = Ember;
+
+const {
+  Store
+} = DS;
+
+export default Store.extend({
+  adapterFor(type) {
     if (!this.typeAdapter) {
       this.typeAdapter = {};
     }
     if (!this.typeAdapter[type]) {
-      var namespaces = [];
-      var adapter = this._super(type);
-      var adminService = this.container.lookup('service:admin');
+      let namespaces = [];
+      const adapter = this._super(type);
+      const adminService = this.container.lookup('service:admin');
 
       if (adapter.namespace) {
         namespaces = adapter.namespace.split('/');
@@ -17,20 +25,20 @@ export default DS.Store.extend({
 
       namespaces.push(adminService.namespace);
 
-      var namespace = namespaces.join('/');
+      let namespace = namespaces.join('/');
       namespace = namespace.replace(/\/$/, '');
 
-      if (Ember.isEmpty(namespace)) {
+      if (isEmpty(namespace)) {
         namespace = undefined;
       }
 
-      var AdminAdapter = adapter.constructor.extend({
-        namespace: namespace
+      const AdminAdapter = adapter.constructor.extend({
+        namespace
       });
 
       this.typeAdapter[type] = AdminAdapter.create();
     }
 
     return this.typeAdapter[type];
-  },
+  }
 });

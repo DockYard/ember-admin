@@ -1,6 +1,12 @@
 import Ember from 'ember';
 
-export default Ember.Mixin.create({
-  needs: ['model-records'],
-  recordType: Ember.computed.alias('controllers.model-records.recordType')
+const {
+  inject,
+  computed: { alias },
+  Mixin
+} = Ember;
+
+export default Mixin.create({
+  'model-records': inject.controller(),
+  recordType: alias('model-records.recordType')
 });

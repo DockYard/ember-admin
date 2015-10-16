@@ -1,7 +1,11 @@
 import DS from 'ember-data';
 
-export default  DS.RESTAdapter.extend({
-  shouldBackgroundReloadRecord: function(){
-  	return true;
+const {
+  RESTAdapter
+} = DS;
+
+export default RESTAdapter.extend({
+  shouldBackgroundReloadRecord() {
+    return true;
   }
 });

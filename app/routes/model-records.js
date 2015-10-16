@@ -1,3 +1,1 @@
-import EmberAdminRouteModelRecords from 'ember-admin/routes/model-records';
-
-export default EmberAdminRouteModelRecords.extend();
+export { default } from 'ember-admin/routes/model-records';

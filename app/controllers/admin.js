@@ -1,3 +1,1 @@
-import EmberAdminControllerAdmin from 'ember-admin/controllers/admin';
-
-export default EmberAdminControllerAdmin.extend();
+export { default } from 'ember-admin/controllers/admin';

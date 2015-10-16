@@ -1,7 +1,13 @@
 import DS from 'ember-data';
 
-export default DS.Model.extend({
-  name: DS.attr('string'),
-  cats: DS.hasMany('cat', {async: true}),
-  courses: DS.hasMany('course', {inverse: 'owners', async: true})
+const {
+  attr,
+  hasMany,
+  Model
+} = DS;
+
+export default Model.extend({
+  name: attr('string'),
+  cats: hasMany('cat', { async: true }),
+  courses: hasMany('course', { inverse: 'owners', async: true })
 });

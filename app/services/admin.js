@@ -1,3 +1,1 @@
-import EmberAdminServiceAdmin from 'ember-admin/services/admin';
-
-export default EmberAdminServiceAdmin.extend();
+export { default } from 'ember-admin/services/admin';

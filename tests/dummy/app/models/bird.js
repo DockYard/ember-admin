@@ -1,7 +1,13 @@
 import DS from 'ember-data';
 
-export default DS.Model.extend({
-  name: DS.attr('string'),
-  age:  DS.attr('number'),
-  toys: DS.hasMany('toy', {async: true})
+const {
+  attr,
+  hasMany,
+  Model
+} = DS;
+
+export default Model.extend({
+  name: attr('string'),
+  age:  attr('number'),
+  toys: hasMany('toy', { async: true })
 });

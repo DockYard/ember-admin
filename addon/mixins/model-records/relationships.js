@@ -1,46 +1,52 @@
 import Ember from 'ember';
+import { pushObject } from 'ember-admin/utils/array';
+
+const {
+  get,
+  computed,
+  isArray,
+  Mixin,
+  A: emberArray
+} = Ember;
 
 function relationshipMacro(type) {
-  return Ember.computed('recordType', 'id', function() {
-    const _this = this;
+  return computed('recordType', 'id', function() {
 
-    return this.get('model')._debugInfo().propertyInfo.groups.filter(function(group) {
-      if (group.name === type) {
-        return true;
-      }
-    }).reduce(function(relationships, group) {
-      group.properties.forEach(function(property) {
-        var records = _this.get('model.' + property);
+    return get(this, 'model')._debugInfo().propertyInfo.groups.filter(function(group) {
+      return group.name === type;
+    }).reduce((relationships, group) => {
+      group.properties.forEach((property) => {
+        let records = get(this, `model.${property}`);
 
         // This might have to be written in such a way
         // as to provide an observer for 'model.'+property
         // and push onto the array when that property is available
-        if (!Ember.isArray(records)) {
-          records = Ember.A([records]);
+        if (!isArray(records)) {
+          records = emberArray([records]);
         }
 
-        const store = _this.container.lookup('store:admin');
-        const constructor = _this.get('model.constructor');
+        const store = this.container.lookup('store:admin');
+        const constructor = get(this, 'model.constructor');
         const inverse = constructor.inverseFor(property, store);
         const meta = constructor.metaForProperty(property);
 
-        relationships.pushObject({
+        pushObject(relationships, {
           name:    property,
-          records: records,
+          records,
           type:    meta.type,
           inverse: inverse && inverse.name
         });
       });
 
       return relationships;
-    }, Ember.A());
+    }, emberArray());
   });
 }
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   hasMany: relationshipMacro('Has Many'),
   belongsTo: relationshipMacro('Belongs To'),
-  relationshipTypes: Ember.computed('recordType', 'id', function() {
-    return [this.get('hasMany'), this.get('belongsTo')];
-  }),
+  relationshipTypes: computed('recordType', 'id', function() {
+    return [get(this, 'hasMany'), get(this, 'belongsTo')];
+  })
 });

@@ -1,8 +1,12 @@
 import Ember from 'ember';
 
-export default Ember.Service.extend({
-  includedModels:  null,
-  excludedModels:  null,
+const {
+  Service
+} = Ember;
+
+export default Service.extend({
+  includedModels: null,
+  excludedModels: null,
 
   includedColumns: null,
   excludedColumns: null,

@@ -5,72 +5,58 @@ import { rowValuesEqual, inputPropertiesEqual } from '../helpers/equality-helper
 import { fillInByLabel, fillInByPlaceholder } from '../helpers/fill-in-by';
 import Pretender from 'pretender';
 
-var App, server;
-var offset, toy;
+const {
+  isEmpty,
+  run
+} = Ember;
+
+let App, server, toy;
 
 module('Acceptance: Admin', {
-  setup: function() {
+  setup() {
     App = startApp();
-    offset = 0;
+    let cats = [
+      { id: 1, name: 'Felix', age: 10 },
+      { id: 2, name: 'Nyan',  age: 3 }
+    ];
     server = new Pretender(function() {
-      this.get('/admin/cats', function(request) {
-        var cats = [
-          [
-            { id: 1, name: "Felix", age: 10 },
-            { id: 2, name: "Nyan",  age: 3  }
-          ],
-          [
-            { id: 1, name: "Hobbes", age: 29 },
-            { id: 2, name: "Nyan",   age: 3  }
-          ],
-          [
-            { id: 1, name: "Hobbes", age: 29 },
-            { id: 2, name: "Nyan",   age: 3  },
-            { id: 3, name: "Lion-O", age: 30 }
-          ],
-          [
-            { id: 2, name: "Nyan",   age: 3  },
-          ]
-        ];
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({cats: cats[offset]})];
+      this.get('/admin/cats', function() {
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ cats })];
       });
-      this.get('/admin/cats/1', function(request) {
-        var cats = [
-          { id: 1, name: "Felix", age: 10 }
-        ];
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({cats: cats})];
+      this.get('/admin/cats/1', function() {
+        const cat = { id: 1, name: 'Felix', age: 10 };
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ cats: [cat] })];
       });
-      this.put('/admin/cats/1', function(request) {
-        var cats = [
-          { id: 1, name: "Hobbes", age: 29 }
-        ];
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({cats: cats})];
+      this.put('/admin/cats/1', function() {
+        const cat = { id: 1, name: 'Hobbes', age: 29 };
+        cats[0] = cat;
+
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ cats: [cat] })];
       });
-      this.post('/admin/cats', function(request) {
-        var cats = [
-          { id: 3, name: "Lion-O", age: 30 }
-        ];
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({cats: cats})];
+      this.post('/admin/cats', function() {
+        const cat = { id: 3, name: 'Lion-O', age: 30 };
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ cats: [cat] })];
       });
-      this.delete('/admin/cats/1', function(request) {
-        return [204, {"Content-Type": "application/json"}, ''];
+      this.delete('/admin/cats/1', function() {
+        cats.splice(0, 1);
+        return [204, { 'Content-Type': 'application/json' }, ''];
       });
-      this.get('/admin/dogs', function(request) {
-        var dogs = [
-          { id: 1, name: "Boomer", age: 2 }
+      this.get('/admin/dogs', function() {
+        const dogs = [
+          { id: 1, name: 'Boomer', age: 2 }
         ];
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({dogs: dogs})];
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ dogs })];
       });
-      this.get('/admin/dogs/1', function(request) {
-        var dogs = [
-          { id: 1, name: "Boomer", age: 2 }
+      this.get('/admin/dogs/1', function() {
+        const dogs = [
+          { id: 1, name: 'Boomer', age: 2 }
         ];
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({dogs: dogs})];
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ dogs })];
       });
     });
   },
-  teardown: function() {
-    Ember.run(App, 'destroy');
+  teardown() {
+    run(App, 'destroy');
     server.shutdown();
   }
 });
@@ -79,7 +65,7 @@ test('listing all models', function(assert) {
   visit('/admin');
 
   andThen(function() {
-    var links = find('a');
+    const links = find('a');
     assert.equal(links.first().text(), 'bird');
     assert.equal(links.last().text(), 'toy');
   });
@@ -89,12 +75,12 @@ test('viewing a model\'s records', function(assert) {
   visit('/admin');
 
   andThen(function() {
-    var links = find('a:contains("cat")');
-    click('#' + links.first().prop('id'));
+    const links = find('a:contains("cat")');
+    click(`#${links.first().prop('id')}`);
   });
 
   andThen(function() {
-    var rows = find('.cat table tr');
+    const rows = find('.cat table tr');
 
     rowValuesEqual(assert, rows.eq(0), 'id', 'name', 'age', 'foo', 'bar', 'baz');
     rowValuesEqual(assert, rows.eq(1), '1', 'Felix', '10', '', '', '');
@@ -110,11 +96,11 @@ test('filtering records by value', function(assert) {
   });
 
   andThen(function() {
-    var rows = find('.cat table tr');
+    const rows = find('.cat table tr');
 
     rowValuesEqual(assert, rows.eq(0), 'id', 'name', 'age', 'foo', 'bar', 'baz');
     rowValuesEqual(assert, rows.eq(1), '1', 'Felix', '10', '', '', '');
-    assert.ok(Ember.isEmpty(rows.eq(2)), 'third row should not exist');
+    assert.ok(isEmpty(rows.eq(2)), 'third row should not exist');
   });
 });
 
@@ -122,21 +108,20 @@ test('editing a record', function(assert) {
   visit('/admin/cat');
 
   andThen(function() {
-    var link = find('.cat a:contains("Felix")');
+    const link = find('.cat a:contains("Felix")');
     click(link);
   });
 
   andThen(function() {
     fillInByLabel('name', 'Hobbes');
     fillInByLabel('age', 29);
-    offset = 1;
     click(find('button.save'));
   });
 
   andThen(function() {});
 
   andThen(function() {
-    var rows = find('.cat table tr');
+    const rows = find('.cat table tr');
     rowValuesEqual(assert, rows.eq(1), '1', 'Hobbes', '29', '', '', '');
   });
 });
@@ -145,61 +130,69 @@ test('creating a new record', function(assert) {
   visit('/admin/cat');
 
   andThen(function() {
-    var link = find('.cat a:contains("Create")');
-    click(link, "cannot find 'Create'");
+    const link = find('.cat a:contains("Create")');
+    click(link, 'cannot find "Create"');
   });
 
   andThen(function() {
     fillInByLabel('name', 'Lion-O');
     fillInByLabel('age', 30);
-    offset = 2;
     click(find('button.save'));
   });
 
   andThen(function() {});
 
   andThen(function() {
-    var rows = find('.cat table tr');
+    const rows = find('.cat table tr');
     rowValuesEqual(assert, rows.eq(3), '3', 'Lion-O', '30', '', '', '');
   });
 });
 
 test('creating doesn\'t affect list', function(assert) {
   visit('/admin/cat');
+  const oldConfirm = window.confirm;
+  window.confirm = function() {
+    return true;
+  };
 
-  var rows;
+  let rows;
 
   andThen(function() {
-    var link = find('.cat a:contains("Create")');
+    const link = find('.cat a:contains("Create")');
 
     rows = find('.cat tr');
 
     click(link);
   });
 
-  andThen(function() {});
+  andThen(function() {
+    visit('/admin/cat');
+  });
 
   andThen(function() {
-    var newRows = find('.cat tr');
+    const newRows = find('.cat tr');
     assert.equal(rows.length, newRows.length, 'Number of rows unaffected');
+    window.confirm = oldConfirm;
   });
 });
 
 test('deleting a record & confirming', function(assert) {
-  var confirmCount = 0;
-  var oldConfirm = window.confirm;
-  window.confirm = function() { confirmCount = 1; return true; };
+  let confirmCount = 0;
+  const oldConfirm = window.confirm;
+  window.confirm = function() {
+    confirmCount = 1;
+    return true;
+  };
   visit('/admin/cat/1/edit');
 
   andThen(function() {
-    offset = 3;
     click(find('button.delete'));
   });
 
   andThen(function() {});
 
   andThen(function() {
-    var rows = find('.cat table tr');
+    const rows = find('.cat table tr');
     rowValuesEqual(assert, rows.eq(1), '2', 'Nyan', '3', '', '', '');
     assert.equal(confirmCount, 1);
     window.confirm = oldConfirm;
@@ -207,13 +200,13 @@ test('deleting a record & confirming', function(assert) {
 });
 
 test('deleting a record & not confirming', function(assert) {
-  var confirmCount = 0;
-  var oldConfirm = window.confirm;
-  window.confirm = function() { return false; };
+  const oldConfirm = window.confirm;
+  window.confirm = function() {
+    return false;
+  };
   visit('/admin/cat/1/edit');
 
   andThen(function() {
-    offset = 3;
     click(find('button.delete'));
   });
 
@@ -237,8 +230,10 @@ test('canceling edit', function(assert) {
 });
 
 test('canceling new', function(assert) {
-  var oldConfirm = window.confirm;
-  window.confirm = function() { return true; };
+  const oldConfirm = window.confirm;
+  window.confirm = function() {
+    return true;
+  };
 
   visit('/admin/cat/new');
   andThen(function() {
@@ -252,7 +247,7 @@ test('canceling new', function(assert) {
 });
 
 test('excluding models', function(assert) {
-  var adminSettings = App.__container__.lookup('service:admin');
+  const adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('excludedModels', ['cat']);
 
   visit('/admin');
@@ -264,7 +259,7 @@ test('excluding models', function(assert) {
 });
 
 test('including models', function(assert) {
-  var adminSettings = App.__container__.lookup('service:admin');
+  const adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('includedModels', ['dog']);
 
   visit('/admin');
@@ -276,7 +271,7 @@ test('including models', function(assert) {
 });
 
 test('including & excluding model', function(assert) {
-  var adminSettings = App.__container__.lookup('service:admin');
+  const adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('includedModels', ['cat', 'dog']);
   adminSettings.set('excludedModels', ['cat']);
 
@@ -290,7 +285,7 @@ test('including & excluding model', function(assert) {
 });
 
 test('including model columns', function(assert) {
-  var adminSettings = App.__container__.lookup('service:admin');
+  const adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('includedColumns', {
     'cat': ['name']
   });
@@ -298,7 +293,7 @@ test('including model columns', function(assert) {
   visit('/admin/cat');
 
   andThen(function() {
-    var rows = find('.cat table tr');
+    const rows = find('.cat table tr');
     rowValuesEqual(assert, rows.eq(0), 'id', 'name');
     rowValuesEqual(assert, rows.eq(1), '1', 'Felix');
     rowValuesEqual(assert, rows.eq(2), '2', 'Nyan');
@@ -307,7 +302,7 @@ test('including model columns', function(assert) {
   });
 
   andThen(function() {
-    var inputs = find('input[type="text"]:not([placeholder="Filter"])');
+    const inputs = find('input[type="text"]:not([placeholder="Filter"])');
     inputPropertiesEqual(assert, inputs, 'name');
 
     adminSettings.set('includedColumns', null);
@@ -315,7 +310,7 @@ test('including model columns', function(assert) {
 });
 
 test('excluding model columns', function(assert) {
-  var adminSettings = App.__container__.lookup('service:admin');
+  const adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('excludedColumns', {
     'cat': ['name']
   });
@@ -323,7 +318,7 @@ test('excluding model columns', function(assert) {
   visit('/admin/cat');
 
   andThen(function() {
-    var rows = find('.cat table tr');
+    const rows = find('.cat table tr');
     rowValuesEqual(assert, rows.eq(0), 'id', 'age', 'foo', 'bar', 'baz');
     rowValuesEqual(assert, rows.eq(1), '1', '10', '', '', '');
     rowValuesEqual(assert, rows.eq(2), '2', '3', '', '', '');
@@ -332,7 +327,7 @@ test('excluding model columns', function(assert) {
   });
 
   andThen(function() {
-    var inputs = find('input[type="text"]:not([placeholder="Filter"])');
+    const inputs = find('input[type="text"]:not([placeholder="Filter"])');
     inputPropertiesEqual(assert, inputs, 'age', 'foo', 'bar', 'baz');
 
     adminSettings.set('excludedColumns', null);
@@ -361,78 +356,77 @@ test('can override edit template', function(assert) {
 });
 
 module('Acceptance: Admin Relationships', {
-  setup: function() {
+  setup() {
     App = startApp();
-    offset = 0;
     server = new Pretender(function() {
       this.get('/admin/cats', function() {
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({cats: [], owners: [], toys: []})];
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ cats: [], owners: [], toys: [] })];
       });
-      this.get('/admin/cats/1', function(request) {
-        var cats = [
-          { id: 1, name: "Felix", age: 10, owner: 1, toys: [1,2] },
+      this.get('/admin/cats/1', function() {
+        const cats = [
+          { id: 1, name: 'Felix', age: 10, owner: 1, toys: [1,2] }
         ];
-        var owners = [
-          { id: 1, name: "Pat Sullivan", cats: [1] }
+        const owners = [
+          { id: 1, name: 'Pat Sullivan', cats: [1] }
         ];
-        var toys = [
-          { id: 1, name: "Ball", cat: 1 },
-          { id: 2, name: "Mouse", cat: 1 }
+        const toys = [
+          { id: 1, name: 'Ball', cat: 1 },
+          { id: 2, name: 'Mouse', cat: 1 }
         ];
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({cats: cats, owners: owners, toys: toys})];
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ cats, owners, toys })];
       });
       this.get('/admin/birds', function() {
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({birds: [], toys: []})];
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ birds: [], toys: [] })];
       });
-      this.get('/admin/birds/1', function(request) {
-        var birds = [
-          { id: 1, name: "Boomer", toys: [3] }
+      this.get('/admin/birds/1', function() {
+        const birds = [
+          { id: 1, name: 'Boomer', toys: [3] }
         ];
-        var toys = [
-          { id: 3, name: "Duck", bird: 1 }
+        const toys = [
+          { id: 3, name: 'Duck', bird: 1 }
         ];
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({birds: birds, toys: toys})];
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ birds, toys })];
       });
       this.post('/admin/toys', function(request) {
         toy = JSON.parse(request.requestBody).toy;
         toy.id = 3;
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({toys: [toy]})];
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ toys: [toy] })];
       });
       this.post('/admin/courses', function(request) {
-        var course = JSON.parse(request.requestBody).course;
+        const { course } = JSON.parse(request.requestBody);
         course.id = 3;
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({courses: [course]})];
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ courses: [course] })];
       });
       this.get('/admin/toys', function() {
-        var toys = [
-          { id: 1, name: "Ball", cat: 1 },
-          { id: 2, name: "Mouse", cat: 1 }
+        const toys = [
+          { id: 1, name: 'Ball', cat: 1 },
+          { id: 2, name: 'Mouse', cat: 1 }
         ];
 
         if (toy) {
           toys.push(toy);
         }
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({toys: toys})];
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ toys })];
       });
       this.get('/admin/owners', function() {
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({owners: []})];
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ owners: [] })];
       });
       this.get('/admin/courses', function() {
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({courses: []})];
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ courses: [] })];
       });
       this.get('/admin/owners/1', function() {
-        var owners = [
+        const owners = [
           { id: 1, name: 'Brian', courses: [1] }
         ];
-        var courses = [
+        const courses = [
           { id: 1, title: 'Teach Your Dog', owners: [1] }
         ];
-        return [200, {"Content-Type": "application/json"}, JSON.stringify({owners: owners, courses: courses})];
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ owners, courses })];
       });
     });
   },
-  teardown: function() {
-    Ember.run(App, 'destroy');
+  teardown() {
+    run(App, 'destroy');
     server.shutdown();
     toy = undefined;
   }
@@ -442,11 +436,11 @@ test('should list relationships', function(assert) {
   visit('/admin/cat/1/edit');
 
   andThen(function() {
-    var ownerRows = find('.owner table tr');
+    const ownerRows = find('.owner table tr');
     rowValuesEqual(assert, ownerRows.eq(0), 'id', 'name');
     rowValuesEqual(assert, ownerRows.eq(1), '1', 'Pat Sullivan');
 
-    var toyRows = find('.toy table tr');
+    const toyRows = find('.toy table tr');
     rowValuesEqual(assert, toyRows.eq(0), 'id', 'name');
     rowValuesEqual(assert, toyRows.eq(1), '1', 'Ball');
     rowValuesEqual(assert, toyRows.eq(2), '2', 'Mouse');
@@ -474,7 +468,7 @@ test('should create new model as a relationship to parent', function(assert) {
   });
 
   andThen(function() {
-    var toyRows = find('.toy table tr');
+    const toyRows = find('.toy table tr');
     rowValuesEqual(assert, toyRows.eq(3), '3', 'Bell');
   });
 });
@@ -483,7 +477,7 @@ test('should not display "Create" if singular relationship model exists', functi
   visit('/admin/cat/1/edit');
 
   andThen(function() {
-    var createLink = find('.owner a:contains("Create")');
+    const createLink = find('.owner a:contains("Create")');
     assert.equal(0, createLink.length, 'should not find the Create link');
   });
 });
@@ -492,9 +486,9 @@ test('should not display "Create" if no inverse relationship exists', function(a
   visit('/admin/bird/1/edit');
 
   andThen(function() {
-    var toysTable = find('.toy');
+    const toysTable = find('.toy');
     assert.equal(1, toysTable.length, 'should find the toy relationship table');
-    var createLink = find('.toy a:contains("Create")');
+    const createLink = find('.toy a:contains("Create")');
     assert.equal(0, createLink.length, 'should not find the Create link');
   });
 });
@@ -503,7 +497,7 @@ test('should properly create Many-to-Many relationship with inverse', function(a
   visit('/admin/owner/1/edit');
 
   andThen(function() {
-    var coursesTable = find('.course');
+    const coursesTable = find('.course');
     assert.equal(1, coursesTable.length, 'should find the course relationship table');
     click('.course a:contains("Create")');
   });

@@ -1,19 +1,23 @@
 import Ember from 'ember';
 
-const set = Ember.set;
-const get = Ember.get;
+const {
+  get,
+  set,
+  computed,
+  TextField
+} = Ember;
 
-export default Ember.TextField.extend({
-  value: Ember.computed('columnValue', {
-    get: function() {
+export default TextField.extend({
+  value: computed('columnValue', {
+    get() {
       const columnValue = get(this, 'columnValue');
       const record = get(this, 'record');
-      return get(record, 'model.'+columnValue);
+      return get(record, `model.${columnValue}`);
     },
-    set: function(key, value) {
+    set(key, value) {
       const columnValue = get(this, 'columnValue');
       const record = get(this, 'record');
-      set(record, 'model.'+columnValue, value);
+      set(record, `model.${columnValue}`, value);
       return value;
     }
   })
