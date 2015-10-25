@@ -1,3 +1,1 @@
-import EmberAdminControllerModelRecordsNew from 'ember-admin/controllers/model-records/new';
-
-export default EmberAdminControllerModelRecordsNew.extend();
+export { default } from 'ember-admin/controllers/model-records/new';

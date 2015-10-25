@@ -1,6 +1,12 @@
 import DS from 'ember-data';
 
-export default DS.Model.extend({
-  name: DS.attr('string'),
-  cat: DS.belongsTo('cat', {async: true})
+const {
+  attr,
+  belongsTo,
+  Model
+} = DS;
+
+export default Model.extend({
+  name: attr('string'),
+  cat: belongsTo('cat', { async: true })
 });

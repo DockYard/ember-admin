@@ -1,13 +1,13 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
-  model: function(params) {
-    return this.admin.store.filter(params.name, {}, function (item) {
-      return !item.get('isNew');
-    });
-  },
-  setupController: function(controller, model) {
+const {
+  set,
+  Route,
+} = Ember;
+
+export default Route.extend({
+  setupController(controller, model) {
     this._super(controller, model);
-    controller.set('recordType', this.paramsFor('model-records').name);
+    set(controller, 'recordType', this.paramsFor('model-records').name);
   }
 });

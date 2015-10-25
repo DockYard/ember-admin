@@ -1,28 +1,38 @@
 import Ember from 'ember';
+import { contains, removeObject } from 'ember-admin/utils/array';
 
-export default Ember.Controller.extend({
-  filteredModels: Ember.computed(function() {
-    var includedModels = this.admin.includedModels;
-    var excludedModels = this.admin.excludedModels;
+const {
+  get,
+  computed,
+  A: emberArray,
+  Controller
+} = Ember;
 
-    return this.get('model').reduce(function(collection, name) {
+export default Controller.extend({
+  filteredModels: computed(function() {
+    const {
+      includedModels,
+      excludedModels
+    } = this.admin;
+
+    return get(this, 'model').reduce(function(collection, name) {
       if (includedModels) {
-        if (includedModels.contains(name)) {
+        if (contains(includedModels, name)) {
           collection.push(name);
         }
 
-        if (excludedModels && excludedModels.contains(name)) {
-          collection.removeObject(name);
+        if (excludedModels && contains(excludedModels, name)) {
+          removeObject(collection, name);
         }
       } else if (excludedModels) {
-          if (!excludedModels.contains(name)) {
-            collection.push(name);
-          }
+        if (!contains(excludedModels, name)) {
+          collection.push(name);
+        }
       } else {
         collection.push(name);
       }
 
       return collection;
-    }, []);
+    }, emberArray());
   })
 });

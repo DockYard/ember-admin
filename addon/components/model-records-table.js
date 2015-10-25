@@ -1,26 +1,34 @@
 import Ember from 'ember';
 import ColumnsMixin from 'ember-admin/mixins/model-records/columns';
 
-export default Ember.Component.extend(ColumnsMixin, {
+const {
+  get,
+  isNone,
+  computed,
+  Component
+} = Ember;
+
+export default Component.extend(ColumnsMixin, {
   includedColumns: ['id'],
-  defaultLayout: Ember.computed(function() {
-    var templatePath = 'admin/index/' + this.get('recordType');
-    if (!this.container.lookupFactory('template:'+templatePath)) {
-       templatePath = 'admin/index/default';
+  defaultLayout: computed(function() {
+    let templatePath = `admin/index/${get(this, 'recordType')}`;
+    if (!this.container.lookupFactory(`template:${templatePath}`)) {
+      templatePath = 'admin/index/default';
     }
 
-    return this.container.lookup('template:'+templatePath);
+    return this.container.lookup(`template:${templatePath}`);
   }),
-  filteredRecords: Ember.computed('records', 'filter', function() {
-    if (Ember.isBlank(this.get('filter'))) {
-      return this.get('records');
+  filteredRecords: computed('records', 'filter', function() {
+    if (Ember.isBlank(get(this, 'filter'))) {
+      return get(this, 'records');
     } else {
-      var filter = this.get('filter').toLowerCase();
-      var columns = this.get('filteredColumns');
-      return this.get('records').filter(function(record) {
-        var value;
-        for(var i = 0; i < columns.length; i++) {
-          value = (record.get(columns[i]) || '').toString().toLowerCase();
+      const filter = get(this, 'filter').toLowerCase();
+      const columns = get(this, 'filteredColumns');
+      return get(this, 'records').filter(function(record) {
+        let value;
+
+        for (let i = 0; i < columns.length; i++) {
+          value = (get(record, columns[i]) || '').toString().toLowerCase();
 
           if (value.indexOf(filter) > -1) {
             return true;
@@ -29,22 +37,23 @@ export default Ember.Component.extend(ColumnsMixin, {
       });
     }
   }),
-  relationshipGiven: Ember.computed('relationshipName', 'relationshipId', function() {
-    return this.get('relationshipName') && this.get('relationshipId');
+  relationshipGiven: computed('relationshipName', 'relationshipId', function() {
+    return get(this, 'relationshipName') && get(this, 'relationshipId');
   }),
-  hideCreate: Ember.computed('relationshipName', 'relationshipId', function() {
-    var relationshipName = this.get('relationshipName');
-    var relationshipId = this.get('relationshipId');
+  hideCreate: computed('relationshipName', 'relationshipId', function() {
+    const relationshipName = get(this, 'relationshipName');
+    const relationshipId = get(this, 'relationshipId');
 
     if (relationshipId) {
-      if (Ember.isNone(relationshipName)) {
+      if (isNone(relationshipName)) {
         return true;
       } else {
-        var store = this.admin.store;
-        var constructor = store.modelFor(this.get('recordType'));
-        var inverseFor = constructor.inverseFor(relationshipName, store);
-        var kind = inverseFor.kind;
-        if (kind && kind === 'belongsTo' && this.get('records.length') > 0) {
+        const { store } = this.admin;
+        const constructor = store.modelFor(get(this, 'recordType'));
+        const inverseFor = constructor.inverseFor(relationshipName, store);
+        const { kind } = inverseFor;
+
+        if (kind && kind === 'belongsTo' && get(this, 'records.length') > 0) {
           return true;
         }
       }

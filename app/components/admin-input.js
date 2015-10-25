@@ -1,3 +1,1 @@
-import AdminInput from 'ember-admin/components/admin-input';
-
-export default AdminInput;
+export { default } from 'ember-admin/components/admin-input';

@@ -1,3 +1,1 @@
-import EmberAdminRouteAdmin from 'ember-admin/routes/admin';
-
-export default EmberAdminRouteAdmin.extend();
+export { default } from 'ember-admin/routes/admin';
