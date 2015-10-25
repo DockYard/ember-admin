@@ -30,5 +30,5 @@ export default Ember.Component.extend({
     set(this, 'cellValue', value);
   },
 
-  defaultLayout: layout
+  layout
 });

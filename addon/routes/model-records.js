@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 const {
   set,
-  Route,
+  Route
 } = Ember;
 
 export default Route.extend({

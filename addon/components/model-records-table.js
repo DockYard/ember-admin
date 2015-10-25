@@ -10,7 +10,7 @@ const {
 
 export default Component.extend(ColumnsMixin, {
   includedColumns: ['id'],
-  defaultLayout: computed(function() {
+  layout: computed(function() {
     let templatePath = `admin/index/${get(this, 'recordType')}`;
     if (!this.container.lookupFactory(`template:${templatePath}`)) {
       templatePath = 'admin/index/default';
