@@ -25,7 +25,7 @@ function relationshipMacro(type) {
           records = emberArray([records]);
         }
 
-        const store = this.container.lookup('store:admin');
+        const store = get(this, 'adminStore');
         const constructor = get(this, 'model.constructor');
         const inverse = constructor.inverseFor(property, store);
         const meta = constructor.metaForProperty(property);
@@ -44,6 +44,8 @@ function relationshipMacro(type) {
 }
 
 export default Mixin.create({
+  adminStore: Ember.inject.service('store:admin'),
+
   hasMany: relationshipMacro('Has Many'),
   belongsTo: relationshipMacro('Belongs To'),
   relationshipTypes: computed('recordType', 'id', function() {

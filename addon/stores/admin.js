@@ -10,6 +10,8 @@ const {
 } = DS;
 
 export default Store.extend({
+  adminService: Ember.inject.service('admin'),
+
   adapterFor(type) {
     if (!this.typeAdapter) {
       this.typeAdapter = {};
@@ -17,7 +19,7 @@ export default Store.extend({
     if (!this.typeAdapter[type]) {
       let namespaces = [];
       const adapter = this._super(type);
-      const adminService = this.container.lookup('service:admin');
+      const adminService = this.get('adminService');
 
       if (adapter.namespace) {
         namespaces = adapter.namespace.split('/');
