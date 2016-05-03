@@ -1,6 +1,6 @@
 # Ember Admin
 
-[![Build](https://travis-ci.org/dockyard/ember-admin.svg?branch=master)](https://travis-ci.org/dockyard/ember-admin)
+[![Build](https://travis-ci.org/DockYard/ember-admin.svg?branch=master)](https://travis-ci.org/DockYard/ember-admin)
 
 ## About ##
 
