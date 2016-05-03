@@ -3,6 +3,7 @@ import EmberDataRouteMixin from 'ember-data-route';
 
 const {
   get,
+  getOwner,
   Mixin
 } = Ember;
 
@@ -11,7 +12,7 @@ export default Mixin.create(EmberDataRouteMixin, {
     const templatePath = `${this.templateAdminPath}/${this.paramsFor('model-records').name}`;
     const defaultTemplatePath = `${this.templateAdminPath}/default`;
 
-    if (this.container.lookupFactory(`template:${templatePath}`)) {
+    if (getOwner(this).lookup(`template:${templatePath}`)) {
       this.render(templatePath);
     } else {
       this.render(defaultTemplatePath);

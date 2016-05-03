@@ -5,7 +5,8 @@ import { contains } from 'ember-admin/utils/array';
 const {
   get,
   computed,
-  computed: { filter }
+  computed: { filter },
+  getOwner
 } = Ember;
 
 function columnContains(columnType, parameter) {
@@ -14,8 +15,7 @@ function columnContains(columnType, parameter) {
 
 export default Ember.Mixin.create(RecordTypeMixin, {
   columns: computed('model', function() {
-    const container = get(this, 'container');
-    const adapter = container.lookup('data-adapter:main');
+    const adapter = getOwner(this).lookup('data-adapter:main');
     const recordType = this.get('recordType');
     const type = adapter.getModelTypes().findBy('name', recordType);
     const { klass } = type;
