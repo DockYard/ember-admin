@@ -5,6 +5,7 @@ const {
   get,
   computed,
   isArray,
+  getOwner,
   Mixin,
   A: emberArray
 } = Ember;
@@ -25,7 +26,7 @@ function relationshipMacro(type) {
           records = emberArray([records]);
         }
 
-        const store = this.container.lookup('store:admin');
+        const store = getOwner(this).lookup('store:admin');
         const constructor = get(this, 'model.constructor');
         const inverse = constructor.inverseFor(property, store);
         const meta = constructor.metaForProperty(property);

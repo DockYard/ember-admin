@@ -5,6 +5,7 @@ const {
   get,
   isNone,
   computed,
+  getOwner,
   Component
 } = Ember;
 
@@ -12,11 +13,11 @@ export default Component.extend(ColumnsMixin, {
   includedColumns: ['id'],
   layout: computed(function() {
     let templatePath = `admin/index/${get(this, 'recordType')}`;
-    if (!this.container.lookupFactory(`template:${templatePath}`)) {
+    if (!getOwner(this).lookup(`template:${templatePath}`)) {
       templatePath = 'admin/index/default';
     }
 
-    return this.container.lookup(`template:${templatePath}`);
+    return getOwner(this).lookup(`template:${templatePath}`);
   }),
   filteredRecords: computed('records', 'filter', function() {
     if (Ember.isBlank(get(this, 'filter'))) {
