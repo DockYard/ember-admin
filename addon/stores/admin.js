@@ -20,8 +20,8 @@ export default Store.extend({
       const adapter = this._super(type);
       const adminService = getOwner(this).lookup('service:admin');
 
-      if (adapter.namespace) {
-        namespaces = adapter.namespace.split('/');
+      if (adapter.get('namespace')) {
+        namespaces = adapter.get('namespace').split('/');
       }
 
       namespaces.push(adminService.namespace);
