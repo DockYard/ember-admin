@@ -3,6 +3,7 @@ import ColumnsMixin from 'ember-admin/mixins/model-records/columns';
 
 const {
   get,
+  set,
   isBlank,
   isNone,
   computed,
@@ -12,14 +13,17 @@ const {
 
 export default Component.extend(ColumnsMixin, {
   includedColumns: ['id'],
-  layout: computed(function() {
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    let owner = getOwner(this);
     let templatePath = `admin/index/${get(this, 'recordType')}`;
-    if (!getOwner(this).lookup(`template:${templatePath}`)) {
+    if (!owner.resolveRegistration(`template:${templatePath}`)) {
       templatePath = 'admin/index/default';
     }
 
-    return getOwner(this).lookup(`template:${templatePath}`);
-  }),
+    set(this, 'layout', owner.resolveRegistration(`template:${templatePath}`));
+  },
   filteredRecords: computed('records', 'filter', function() {
     if (isBlank(get(this, 'filter'))) {
       return get(this, 'records');
