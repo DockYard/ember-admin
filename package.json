@@ -9,7 +9,7 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember try:testall"
+    "test": "ember try:each"
   },
   "repository": "https://github.com/dockyard/ember-admin",
   "engines": {
@@ -19,26 +19,25 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
-    "ember-ajax": "0.7.1",
-    "ember-cli": "2.5.0",
+    "ember-ajax": "^2.0.1",
+    "ember-cli": "2.7.0",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-dependency-checker": "^1.2.0",
-    "ember-cli-htmlbars": "^1.0.3",
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-inject-live-reload": "^1.4.0",
     "ember-cli-jshint": "^1.0.0",
     "ember-cli-pretender": "^0.5.0",
-    "ember-cli-qunit": "^1.4.0",
-    "ember-cli-release": "0.2.8",
+    "ember-cli-qunit": "^2.0.0",
+    "ember-cli-release": "^0.2.9",
     "ember-cli-sri": "^2.1.0",
+    "ember-cli-test-loader": "^1.1.0",
     "ember-cli-uglify": "^1.2.0",
-    "ember-data": "^2.5.0",
+    "ember-data": "^2.7.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
-    "ember-suave": "1.2.3",
-    "ember-try": "^0.2.2",
+    "ember-suave": "4.0.0",
     "loader.js": "^4.0.1"
   },
   "keywords": [
@@ -46,7 +45,7 @@
   ],
   "dependencies": {
     "ember-async-button": "0.7.0",
-    "ember-cli-htmlbars": "0.7.9",
+    "ember-cli-htmlbars": "^1.0.3",
     "ember-data-route": "0.2.0",
     "ember-cli-babel": "^5.1.6"
   },
