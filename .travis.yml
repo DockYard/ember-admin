@@ -1,21 +1,23 @@
 ---
 language: node_js
 node_js:
-  - "4"
+  - "stable"
 
-sudo: false
+sudo: required
+dist: trusty
 
 cache:
   directories:
     - node_modules
 
 before_install:
-  - npm config set spin false
-  - npm install -g bower
-  - npm install phantomjs-prebuilt
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - "npm config set progress false"
 
 install:
-  - npm install
+  - npm install -g bower
+  - npm install --no-optional
   - bower install
 
 script:

@@ -3,6 +3,8 @@ import ColumnsMixin from 'ember-admin/mixins/model-records/columns';
 
 const {
   get,
+  set,
+  isBlank,
   isNone,
   computed,
   getOwner,
@@ -11,20 +13,23 @@ const {
 
 export default Component.extend(ColumnsMixin, {
   includedColumns: ['id'],
-  layout: computed(function() {
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    let owner = getOwner(this);
     let templatePath = `admin/index/${get(this, 'recordType')}`;
-    if (!getOwner(this).lookup(`template:${templatePath}`)) {
+    if (!owner.resolveRegistration(`template:${templatePath}`)) {
       templatePath = 'admin/index/default';
     }
 
-    return getOwner(this).lookup(`template:${templatePath}`);
-  }),
+    set(this, 'layout', owner.resolveRegistration(`template:${templatePath}`));
+  },
   filteredRecords: computed('records', 'filter', function() {
-    if (Ember.isBlank(get(this, 'filter'))) {
+    if (isBlank(get(this, 'filter'))) {
       return get(this, 'records');
     } else {
-      const filter = get(this, 'filter').toLowerCase();
-      const columns = get(this, 'filteredColumns');
+      let filter = get(this, 'filter').toLowerCase();
+      let columns = get(this, 'filteredColumns');
       return get(this, 'records').filter(function(record) {
         let value;
 
@@ -42,17 +47,17 @@ export default Component.extend(ColumnsMixin, {
     return get(this, 'relationshipName') && get(this, 'relationshipId');
   }),
   hideCreate: computed('relationshipName', 'relationshipId', function() {
-    const relationshipName = get(this, 'relationshipName');
-    const relationshipId = get(this, 'relationshipId');
+    let relationshipName = get(this, 'relationshipName');
+    let relationshipId = get(this, 'relationshipId');
 
     if (relationshipId) {
       if (isNone(relationshipName)) {
         return true;
       } else {
-        const { store } = this.admin;
-        const constructor = store.modelFor(get(this, 'recordType'));
-        const inverseFor = constructor.inverseFor(relationshipName, store);
-        const { kind } = inverseFor;
+        let { store } = this.admin;
+        let constructor = store.modelFor(get(this, 'recordType'));
+        let inverseFor = constructor.inverseFor(relationshipName, store);
+        let { kind } = inverseFor;
 
         if (kind && kind === 'belongsTo' && get(this, 'records.length') > 0) {
           return true;

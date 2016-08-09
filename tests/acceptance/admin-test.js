@@ -24,17 +24,17 @@ module('Acceptance: Admin', {
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ cats })];
       });
       this.get('/admin/cats/1', function() {
-        const cat = { id: 1, name: 'Felix', age: 10 };
+        let cat = { id: 1, name: 'Felix', age: 10 };
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ cats: [cat] })];
       });
       this.put('/admin/cats/1', function() {
-        const cat = { id: 1, name: 'Hobbes', age: 29 };
+        let cat = { id: 1, name: 'Hobbes', age: 29 };
         cats[0] = cat;
 
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ cats: [cat] })];
       });
       this.post('/admin/cats', function() {
-        const cat = { id: 3, name: 'Lion-O', age: 30 };
+        let cat = { id: 3, name: 'Lion-O', age: 30 };
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ cats: [cat] })];
       });
       this.delete('/admin/cats/1', function() {
@@ -42,13 +42,13 @@ module('Acceptance: Admin', {
         return [204, { 'Content-Type': 'application/json' }, ''];
       });
       this.get('/admin/dogs', function() {
-        const dogs = [
+        let dogs = [
           { id: 1, name: 'Boomer', age: 2 }
         ];
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ dogs })];
       });
       this.get('/admin/dogs/1', function() {
-        const dogs = [
+        let dogs = [
           { id: 1, name: 'Boomer', age: 2 }
         ];
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ dogs })];
@@ -65,7 +65,7 @@ test('listing all models', function(assert) {
   visit('/admin');
 
   andThen(function() {
-    const links = find('a');
+    let links = find('a');
     assert.equal(links.first().text(), 'bird');
     assert.equal(links.last().text(), 'toy');
   });
@@ -75,12 +75,12 @@ test('viewing a model\'s records', function(assert) {
   visit('/admin');
 
   andThen(function() {
-    const links = find('a:contains("cat")');
+    let links = find('a:contains("cat")');
     click(`#${links.first().prop('id')}`);
   });
 
   andThen(function() {
-    const rows = find('.cat table tr');
+    let rows = find('.cat table tr');
 
     rowValuesEqual(assert, rows.eq(0), 'id', 'name', 'age', 'foo', 'bar', 'baz');
     rowValuesEqual(assert, rows.eq(1), '1', 'Felix', '10', '', '', '');
@@ -96,7 +96,7 @@ test('filtering records by value', function(assert) {
   });
 
   andThen(function() {
-    const rows = find('.cat table tr');
+    let rows = find('.cat table tr');
 
     rowValuesEqual(assert, rows.eq(0), 'id', 'name', 'age', 'foo', 'bar', 'baz');
     rowValuesEqual(assert, rows.eq(1), '1', 'Felix', '10', '', '', '');
@@ -108,7 +108,7 @@ test('editing a record', function(assert) {
   visit('/admin/cat');
 
   andThen(function() {
-    const link = find('.cat a:contains("Felix")');
+    let link = find('.cat a:contains("Felix")');
     click(link);
   });
 
@@ -121,7 +121,7 @@ test('editing a record', function(assert) {
   andThen(function() {});
 
   andThen(function() {
-    const rows = find('.cat table tr');
+    let rows = find('.cat table tr');
     rowValuesEqual(assert, rows.eq(1), '1', 'Hobbes', '29', '', '', '');
   });
 });
@@ -130,7 +130,7 @@ test('creating a new record', function(assert) {
   visit('/admin/cat');
 
   andThen(function() {
-    const link = find('.cat a:contains("Create")');
+    let link = find('.cat a:contains("Create")');
     click(link, 'cannot find "Create"');
   });
 
@@ -143,14 +143,14 @@ test('creating a new record', function(assert) {
   andThen(function() {});
 
   andThen(function() {
-    const rows = find('.cat table tr');
+    let rows = find('.cat table tr');
     rowValuesEqual(assert, rows.eq(3), '3', 'Lion-O', '30', '', '', '');
   });
 });
 
 test('creating doesn\'t affect list', function(assert) {
   visit('/admin/cat');
-  const oldConfirm = window.confirm;
+  let oldConfirm = window.confirm;
   window.confirm = function() {
     return true;
   };
@@ -158,7 +158,7 @@ test('creating doesn\'t affect list', function(assert) {
   let rows;
 
   andThen(function() {
-    const link = find('.cat a:contains("Create")');
+    let link = find('.cat a:contains("Create")');
 
     rows = find('.cat tr');
 
@@ -170,7 +170,7 @@ test('creating doesn\'t affect list', function(assert) {
   });
 
   andThen(function() {
-    const newRows = find('.cat tr');
+    let newRows = find('.cat tr');
     assert.equal(rows.length, newRows.length, 'Number of rows unaffected');
     window.confirm = oldConfirm;
   });
@@ -178,7 +178,7 @@ test('creating doesn\'t affect list', function(assert) {
 
 test('deleting a record & confirming', function(assert) {
   let confirmCount = 0;
-  const oldConfirm = window.confirm;
+  let oldConfirm = window.confirm;
   window.confirm = function() {
     confirmCount = 1;
     return true;
@@ -192,7 +192,7 @@ test('deleting a record & confirming', function(assert) {
   andThen(function() {});
 
   andThen(function() {
-    const rows = find('.cat table tr');
+    let rows = find('.cat table tr');
     rowValuesEqual(assert, rows.eq(1), '2', 'Nyan', '3', '', '', '');
     assert.equal(confirmCount, 1);
     window.confirm = oldConfirm;
@@ -200,7 +200,7 @@ test('deleting a record & confirming', function(assert) {
 });
 
 test('deleting a record & not confirming', function(assert) {
-  const oldConfirm = window.confirm;
+  let oldConfirm = window.confirm;
   window.confirm = function() {
     return false;
   };
@@ -230,7 +230,7 @@ test('canceling edit', function(assert) {
 });
 
 test('canceling new', function(assert) {
-  const oldConfirm = window.confirm;
+  let oldConfirm = window.confirm;
   window.confirm = function() {
     return true;
   };
@@ -247,7 +247,7 @@ test('canceling new', function(assert) {
 });
 
 test('excluding models', function(assert) {
-  const adminSettings = App.__container__.lookup('service:admin');
+  let adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('excludedModels', ['cat']);
 
   visit('/admin');
@@ -259,7 +259,7 @@ test('excluding models', function(assert) {
 });
 
 test('including models', function(assert) {
-  const adminSettings = App.__container__.lookup('service:admin');
+  let adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('includedModels', ['dog']);
 
   visit('/admin');
@@ -271,7 +271,7 @@ test('including models', function(assert) {
 });
 
 test('including & excluding model', function(assert) {
-  const adminSettings = App.__container__.lookup('service:admin');
+  let adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('includedModels', ['cat', 'dog']);
   adminSettings.set('excludedModels', ['cat']);
 
@@ -285,7 +285,7 @@ test('including & excluding model', function(assert) {
 });
 
 test('including model columns', function(assert) {
-  const adminSettings = App.__container__.lookup('service:admin');
+  let adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('includedColumns', {
     'cat': ['name']
   });
@@ -293,7 +293,7 @@ test('including model columns', function(assert) {
   visit('/admin/cat');
 
   andThen(function() {
-    const rows = find('.cat table tr');
+    let rows = find('.cat table tr');
     rowValuesEqual(assert, rows.eq(0), 'id', 'name');
     rowValuesEqual(assert, rows.eq(1), '1', 'Felix');
     rowValuesEqual(assert, rows.eq(2), '2', 'Nyan');
@@ -302,7 +302,7 @@ test('including model columns', function(assert) {
   });
 
   andThen(function() {
-    const inputs = find('input[type="text"]:not([placeholder="Filter"])');
+    let inputs = find('input[type="text"]:not([placeholder="Filter"])');
     inputPropertiesEqual(assert, inputs, 'name');
 
     adminSettings.set('includedColumns', null);
@@ -310,7 +310,7 @@ test('including model columns', function(assert) {
 });
 
 test('excluding model columns', function(assert) {
-  const adminSettings = App.__container__.lookup('service:admin');
+  let adminSettings = App.__container__.lookup('service:admin');
   adminSettings.set('excludedColumns', {
     'cat': ['name']
   });
@@ -318,7 +318,7 @@ test('excluding model columns', function(assert) {
   visit('/admin/cat');
 
   andThen(function() {
-    const rows = find('.cat table tr');
+    let rows = find('.cat table tr');
     rowValuesEqual(assert, rows.eq(0), 'id', 'age', 'foo', 'bar', 'baz');
     rowValuesEqual(assert, rows.eq(1), '1', '10', '', '', '');
     rowValuesEqual(assert, rows.eq(2), '2', '3', '', '', '');
@@ -327,7 +327,7 @@ test('excluding model columns', function(assert) {
   });
 
   andThen(function() {
-    const inputs = find('input[type="text"]:not([placeholder="Filter"])');
+    let inputs = find('input[type="text"]:not([placeholder="Filter"])');
     inputPropertiesEqual(assert, inputs, 'age', 'foo', 'bar', 'baz');
 
     adminSettings.set('excludedColumns', null);
@@ -363,13 +363,13 @@ module('Acceptance: Admin Relationships', {
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ cats: [], owners: [], toys: [] })];
       });
       this.get('/admin/cats/1', function() {
-        const cats = [
+        let cats = [
           { id: 1, name: 'Felix', age: 10, owner: 1, toys: [1,2] }
         ];
-        const owners = [
+        let owners = [
           { id: 1, name: 'Pat Sullivan', cats: [1] }
         ];
-        const toys = [
+        let toys = [
           { id: 1, name: 'Ball', cat: 1 },
           { id: 2, name: 'Mouse', cat: 1 }
         ];
@@ -379,10 +379,10 @@ module('Acceptance: Admin Relationships', {
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ birds: [], toys: [] })];
       });
       this.get('/admin/birds/1', function() {
-        const birds = [
+        let birds = [
           { id: 1, name: 'Boomer', toys: [3] }
         ];
-        const toys = [
+        let toys = [
           { id: 3, name: 'Duck', bird: 1 }
         ];
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ birds, toys })];
@@ -393,12 +393,12 @@ module('Acceptance: Admin Relationships', {
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ toys: [toy] })];
       });
       this.post('/admin/courses', function(request) {
-        const { course } = JSON.parse(request.requestBody);
+        let { course } = JSON.parse(request.requestBody);
         course.id = 3;
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ courses: [course] })];
       });
       this.get('/admin/toys', function() {
-        const toys = [
+        let toys = [
           { id: 1, name: 'Ball', cat: 1 },
           { id: 2, name: 'Mouse', cat: 1 }
         ];
@@ -415,10 +415,10 @@ module('Acceptance: Admin Relationships', {
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ courses: [] })];
       });
       this.get('/admin/owners/1', function() {
-        const owners = [
+        let owners = [
           { id: 1, name: 'Brian', courses: [1] }
         ];
-        const courses = [
+        let courses = [
           { id: 1, title: 'Teach Your Dog', owners: [1] }
         ];
         return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ owners, courses })];
@@ -436,11 +436,11 @@ test('should list relationships', function(assert) {
   visit('/admin/cat/1/edit');
 
   andThen(function() {
-    const ownerRows = find('.owner table tr');
+    let ownerRows = find('.owner table tr');
     rowValuesEqual(assert, ownerRows.eq(0), 'id', 'name');
     rowValuesEqual(assert, ownerRows.eq(1), '1', 'Pat Sullivan');
 
-    const toyRows = find('.toy table tr');
+    let toyRows = find('.toy table tr');
     rowValuesEqual(assert, toyRows.eq(0), 'id', 'name');
     rowValuesEqual(assert, toyRows.eq(1), '1', 'Ball');
     rowValuesEqual(assert, toyRows.eq(2), '2', 'Mouse');
@@ -468,7 +468,7 @@ test('should create new model as a relationship to parent', function(assert) {
   });
 
   andThen(function() {
-    const toyRows = find('.toy table tr');
+    let toyRows = find('.toy table tr');
     rowValuesEqual(assert, toyRows.eq(3), '3', 'Bell');
   });
 });
@@ -477,7 +477,7 @@ test('should not display "Create" if singular relationship model exists', functi
   visit('/admin/cat/1/edit');
 
   andThen(function() {
-    const createLink = find('.owner a:contains("Create")');
+    let createLink = find('.owner a:contains("Create")');
     assert.equal(0, createLink.length, 'should not find the Create link');
   });
 });
@@ -486,9 +486,9 @@ test('should not display "Create" if no inverse relationship exists', function(a
   visit('/admin/bird/1/edit');
 
   andThen(function() {
-    const toysTable = find('.toy');
+    let toysTable = find('.toy');
     assert.equal(1, toysTable.length, 'should find the toy relationship table');
-    const createLink = find('.toy a:contains("Create")');
+    let createLink = find('.toy a:contains("Create")');
     assert.equal(0, createLink.length, 'should not find the Create link');
   });
 });
@@ -497,7 +497,7 @@ test('should properly create Many-to-Many relationship with inverse', function(a
   visit('/admin/owner/1/edit');
 
   andThen(function() {
-    const coursesTable = find('.course');
+    let coursesTable = find('.course');
     assert.equal(1, coursesTable.length, 'should find the course relationship table');
     click('.course a:contains("Create")');
   });

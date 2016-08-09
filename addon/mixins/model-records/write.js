@@ -9,8 +9,8 @@ const {
 
 export default Mixin.create(EmberDataRouteMixin, {
   renderTemplate() {
-    const templatePath = `${this.templateAdminPath}/${this.paramsFor('model-records').name}`;
-    const defaultTemplatePath = `${this.templateAdminPath}/default`;
+    let templatePath = `${this.templateAdminPath}/${this.paramsFor('model-records').name}`;
+    let defaultTemplatePath = `${this.templateAdminPath}/default`;
 
     if (getOwner(this).lookup(`template:${templatePath}`)) {
       this.render(templatePath);
@@ -20,7 +20,7 @@ export default Mixin.create(EmberDataRouteMixin, {
   },
   actions: {
     save(callback) {
-      const promise = get(this, 'controller.model').save();
+      let promise = get(this, 'controller.model').save();
       callback(promise);
 
       promise.then(() => {

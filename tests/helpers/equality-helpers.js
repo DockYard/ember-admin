@@ -1,8 +1,8 @@
 export { rowValuesEqual, inputPropertiesEqual };
 
 function rowValuesEqual(assert, row) {
-  const values = Array.prototype.slice.call(arguments, 2, arguments.length);
-  const columns = row.find('th, td');
+  let values = Array.prototype.slice.call(arguments, 2, arguments.length);
+  let columns = row.find('th, td');
   let columnText;
 
   assert.equal(columns.length, values.length, `expected ${values.length} columns: (${values.join(', ')})`);
@@ -14,7 +14,7 @@ function rowValuesEqual(assert, row) {
 }
 
 function inputPropertiesEqual(assert, inputs) {
-  const values = Array.prototype.slice.call(arguments, 2, arguments.length);
+  let values = Array.prototype.slice.call(arguments, 2, arguments.length);
   let labelText;
 
   assert.equal(inputs.length, values.length, `expected ${values.length} inputs: (${values.join(', ')})`);

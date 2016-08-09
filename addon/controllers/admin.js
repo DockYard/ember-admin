@@ -10,7 +10,7 @@ const {
 
 export default Controller.extend({
   filteredModels: computed(function() {
-    const {
+    let {
       includedModels,
       excludedModels
     } = this.admin;

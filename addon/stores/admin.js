@@ -17,8 +17,8 @@ export default Store.extend({
     }
     if (!this.typeAdapter[type]) {
       let namespaces = [];
-      const adapter = this._super(type);
-      const adminService = getOwner(this).lookup('service:admin');
+      let adapter = this._super(type);
+      let adminService = getOwner(this).lookup('service:admin');
 
       if (adapter.namespace) {
         namespaces = adapter.namespace.split('/');
@@ -33,7 +33,7 @@ export default Store.extend({
         namespace = undefined;
       }
 
-      const AdminAdapter = adapter.constructor.extend({
+      let AdminAdapter = adapter.constructor.extend({
         namespace
       });
 

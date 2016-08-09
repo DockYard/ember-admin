@@ -8,7 +8,7 @@ const {
   contains: _contains,
   pushObject: _pushObject,
   removeObject: _removeObject
-} = Ember.A();
+} = emberArray();
 
 export function contains(array, ...values) {
   return _contains.apply(emberArray(array), values);
