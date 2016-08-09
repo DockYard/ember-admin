@@ -16,11 +16,11 @@ export default Controller.extend(RecordTypeMixin, ColumnsMixin, {
   'relationship-id': null,
 
   setupRelation: observer('model', function() {
-    const name = get(this, 'relationship-name');
-    const id   = get(this, 'relationship-id');
+    let name = get(this, 'relationship-name');
+    let id   = get(this, 'relationship-id');
 
     if (name && id) {
-      const meta = get(this, 'model').constructor.metaForProperty(name);
+      let meta = get(this, 'model').constructor.metaForProperty(name);
 
       this.admin.store.find(meta.type, id).then((model) => {
         if (meta.kind && meta.kind === 'hasMany') {

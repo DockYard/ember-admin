@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/property-print';
 
 const {
+  Component,
   on,
   get,
   set,
@@ -9,10 +10,10 @@ const {
   addObserver
 } = Ember;
 
-export default Ember.Component.extend({
+export default Component.extend({
   setupCellObsever: observer('record', 'column', on('init', function() {
-    const record = get(this, 'record');
-    const column = get(this, 'column');
+    let record = get(this, 'record');
+    let column = get(this, 'column');
 
     if (!record || !column) {
       return;
@@ -23,9 +24,9 @@ export default Ember.Component.extend({
   })),
 
   _updateCell() {
-    const record = get(this, 'record');
-    const column = get(this, 'column');
-    const value = get(record, column);
+    let record = get(this, 'record');
+    let column = get(this, 'column');
+    let value = get(record, column);
 
     set(this, 'cellValue', value);
   },

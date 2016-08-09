@@ -26,10 +26,10 @@ function relationshipMacro(type) {
           records = emberArray([records]);
         }
 
-        const store = getOwner(this).lookup('store:admin');
-        const constructor = get(this, 'model.constructor');
-        const inverse = constructor.inverseFor(property, store);
-        const meta = constructor.metaForProperty(property);
+        let store = getOwner(this).lookup('store:admin');
+        let constructor = get(this, 'model.constructor');
+        let inverse = constructor.inverseFor(property, store);
+        let meta = constructor.metaForProperty(property);
 
         pushObject(relationships, {
           name:    property,

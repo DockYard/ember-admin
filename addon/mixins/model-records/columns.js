@@ -3,6 +3,8 @@ import RecordTypeMixin from 'ember-admin/mixins/model-records/model-record';
 import { contains } from 'ember-admin/utils/array';
 
 const {
+  Mixin,
+  A: emberArray,
   get,
   computed,
   computed: { filter },
@@ -13,14 +15,14 @@ function columnContains(columnType, parameter) {
   return columnType && contains(columnType, parameter);
 }
 
-export default Ember.Mixin.create(RecordTypeMixin, {
+export default Mixin.create(RecordTypeMixin, {
   columns: computed('model', function() {
-    const adapter = getOwner(this).lookup('data-adapter:main');
-    const recordType = this.get('recordType');
-    const type = adapter.getModelTypes().findBy('name', recordType);
-    const { klass } = type;
+    let adapter = getOwner(this).lookup('data-adapter:main');
+    let recordType = this.get('recordType');
+    let type = adapter.getModelTypes().findBy('name', recordType);
+    let { klass } = type;
 
-    const keys = Ember.A(['id']);
+    let keys = emberArray(['id']);
 
     klass.eachAttribute(function(key) {
       keys.push(key);
@@ -30,11 +32,11 @@ export default Ember.Mixin.create(RecordTypeMixin, {
   }),
 
   filteredColumns: filter('columns', function(name) {
-    const modelName = get(this, 'model-record.name');
+    let modelName = get(this, 'model-record.name');
     let allowColumn = true;
 
     /*jshint -W024 */
-    const {
+    let {
       admin: {
         includedColumns: adminIncludedColumns,
         excludedColumns: adminExcludedColumns

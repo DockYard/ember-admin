@@ -1,7 +1,7 @@
 export { fillInByLabel, fillInByPlaceholder};
 
 function fillInByLabel(text, value) {
-  const label = find(`label:contains("${text}")`);
+  let label = find(`label:contains("${text}")`);
   let input;
   if (label.prop('for')) {
     input = find(`#${label.prop('for')}`);
@@ -12,7 +12,7 @@ function fillInByLabel(text, value) {
 }
 
 function fillInByPlaceholder(text, value) {
-  const input = find(`[placeholder="${text}"]`);
+  let input = find(`[placeholder="${text}"]`);
 
   return fillIn(input, value);
 }
