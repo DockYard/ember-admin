@@ -1,6 +1,6 @@
 # Ember Admin
 
-[![Build](https://travis-ci.org/DockYard/ember-admin.svg?branch=master)](https://travis-ci.org/DockYard/ember-admin)
+[![Build Status](https://travis-ci.org/DockYard/ember-admin.svg?branch=master)](https://travis-ci.org/DockYard/ember-admin) [![CircleCI](https://circleci.com/gh/DockYard/ember-admin.svg?style=shield)](https://circleci.com/gh/DockYard/ember-admin) [![npm version](https://badge.fury.io/js/ember-admin.svg)](https://badge.fury.io/js/ember-admin) [![Ember Observer Score](http://emberobserver.com/badges/ember-admin.svg)](http://emberobserver.com/addons/ember-admin)
 
 ## About ##
 
