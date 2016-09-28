@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import RecordTypeMixin from 'ember-admin/mixins/model-records/model-record';
-import { contains } from 'ember-admin/utils/array';
+import { includes } from 'ember-admin/utils/array';
 
 const {
   Mixin,
@@ -11,8 +11,8 @@ const {
   getOwner
 } = Ember;
 
-function columnContains(columnType, parameter) {
-  return columnType && contains(columnType, parameter);
+function columnIncludes(columnType, parameter) {
+  return columnType && includes(columnType, parameter);
 }
 
 export default Mixin.create(RecordTypeMixin, {
@@ -47,22 +47,22 @@ export default Mixin.create(RecordTypeMixin, {
     /*jshint +W024 */
 
     if (adminIncludedColumns) {
-      if (!columnContains(adminIncludedColumns[modelName], name)) {
+      if (!columnIncludes(adminIncludedColumns[modelName], name)) {
         allowColumn = false;
       }
     }
 
     if (adminExcludedColumns) {
-      if (columnContains(adminExcludedColumns[modelName], name)) {
+      if (columnIncludes(adminExcludedColumns[modelName], name)) {
         allowColumn = false;
       }
     }
 
-    if (columnContains(excludedColumns, name)) {
+    if (columnIncludes(excludedColumns, name)) {
       allowColumn = false;
     }
 
-    if (columnContains(includedColumns, name)) {
+    if (columnIncludes(includedColumns, name)) {
       allowColumn = true;
     }
 
