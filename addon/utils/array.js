@@ -5,13 +5,13 @@ const {
 } = Ember;
 
 const {
-  contains: _contains,
+  includes: _includes,
   pushObject: _pushObject,
   removeObject: _removeObject
 } = emberArray();
 
-export function contains(array, ...values) {
-  return _contains.apply(emberArray(array), values);
+export function includes(array, ...values) {
+  return _includes.apply(emberArray(array), values);
 }
 
 export function pushObject(array, ...values) {
