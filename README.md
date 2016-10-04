@@ -48,6 +48,11 @@ export default EmberAdminRouteAdmin.extend({
 
 Now you can extend the Route to behave however you'd like.
 
+After overriding any of the routes, Ember will look for the template in your project folder. To keep using the default template, copy it from the addon:
+```sh
+cp node_modules/ember-admin/app/templates/admin.hbs app/templates/
+```
+
 **Note**: you should always take care to ensure that your backend API
 used by EmberAdmin is properly restricted to authorized users.
 
