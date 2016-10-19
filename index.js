@@ -1,6 +1,9 @@
 /* jshint node: true */
 'use strict';
 
-module.exports = {
-  name: 'ember-admin'
-};
+var EngineAddon = require('ember-engines/lib/engine-addon');
+
+module.exports = EngineAddon.extend({
+  name: 'ember-admin',
+  lazyLoading: false
+});
