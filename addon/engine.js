@@ -7,7 +7,12 @@ const { modulePrefix } = config;
 
 const Eng = Engine.extend({
   modulePrefix,
-  Resolver
+  Resolver,
+  dependencies: {
+    services: [
+      'admin-config'
+    ]
+  }
 });
 
 loadInitializers(Eng, modulePrefix);
