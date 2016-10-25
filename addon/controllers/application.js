@@ -3,6 +3,7 @@ import { includes, removeObject } from 'ember-admin/utils/array';
 
 const {
   get,
+  getOwner,
   computed,
   A: emberArray,
   Controller
@@ -10,10 +11,11 @@ const {
 
 export default Controller.extend({
   filteredModels: computed(function() {
+    let admin = getOwner(this).lookup('store:admin');
     let {
       includedModels,
       excludedModels
-    } = this.admin;
+    } = admin;
 
     return get(this, 'model').reduce(function(collection, name) {
       if (includedModels) {
