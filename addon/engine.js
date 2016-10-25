@@ -10,6 +10,7 @@ const Eng = Engine.extend({
   Resolver,
   dependencies: {
     services: [
+      'store',
       'admin-config'
     ]
   }
