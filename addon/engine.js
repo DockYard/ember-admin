@@ -4,6 +4,7 @@ import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 
 const { modulePrefix } = config;
+console.log(config);
 
 const Eng = Engine.extend({
   modulePrefix,
