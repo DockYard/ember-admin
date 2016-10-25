@@ -49,8 +49,7 @@
     "ember-data-route": "0.2.0"
   },
   "peerDependencies": {
-    "ember-engines": "*",
-    "ember-data": "^2.8.0"
+    "ember-engines": "*"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
