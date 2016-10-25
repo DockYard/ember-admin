@@ -3,15 +3,21 @@ import WriteMixin from 'ember-admin/mixins/model-records/write';
 
 const {
   get,
+  inject,
   Route,
   RSVP: { Promise }
 } = Ember;
 
 export default Route.extend(WriteMixin, {
-  model(params) {
-    return this.admin.store.find(this.paramsFor('model-records').name, params.id);
-  },
+  adminStore: inject.service(),
   templateAdminPath: 'admin/edit',
+
+  model(params) {
+    let store = this.get('adminStore');
+
+    return store.find(this.paramsFor('model-records').name, params.id);
+  },
+
   actions: {
     destroyRecord(callback) {
       let canDestroy = window.confirm('Are you sure you want to destroy this record?');

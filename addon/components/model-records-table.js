@@ -14,6 +14,8 @@ const {
 
 export default Component.extend(ColumnsMixin, {
   adminConfig: inject.service(),
+  adminStore: inject.service(),
+
   includedColumns: ['id'],
 
   didReceiveAttrs() {
@@ -51,6 +53,7 @@ export default Component.extend(ColumnsMixin, {
     return get(this, 'relationshipName') && get(this, 'relationshipId');
   }),
   hideCreate: computed('relationshipName', 'relationshipId', function() {
+    let store = this.get('adminStore');
     let relationshipName = get(this, 'relationshipName');
     let relationshipId = get(this, 'relationshipId');
 
@@ -58,7 +61,6 @@ export default Component.extend(ColumnsMixin, {
       if (isNone(relationshipName)) {
         return true;
       } else {
-        let { store } = this.admin;
         let constructor = store.modelFor(get(this, 'recordType'));
         let inverseFor = constructor.inverseFor(relationshipName, store);
         let { kind } = inverseFor;
