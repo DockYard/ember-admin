@@ -17,7 +17,7 @@ function columnIncludes(columnType, parameter) {
 
 export default Mixin.create(RecordTypeMixin, {
   columns: computed('model', function() {
-    let adapter = getOwner(this).lookup('data-adapter:main');
+    let adapter = this.get('adminConfig.dataAdapter');
     let recordType = this.get('recordType');
     let type = adapter.getModelTypes().findBy('name', recordType);
     let { klass } = type;

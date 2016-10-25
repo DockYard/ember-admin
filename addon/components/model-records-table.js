@@ -6,13 +6,16 @@ const {
   set,
   isBlank,
   isNone,
+  inject,
   computed,
   getOwner,
   Component
 } = Ember;
 
 export default Component.extend(ColumnsMixin, {
+  adminConfig: inject.service(),
   includedColumns: ['id'],
+
   didReceiveAttrs() {
     this._super(...arguments);
 
@@ -24,6 +27,7 @@ export default Component.extend(ColumnsMixin, {
 
     set(this, 'layout', owner.resolveRegistration(`template:${templatePath}`));
   },
+
   filteredRecords: computed('records', 'filter', function() {
     if (isBlank(get(this, 'filter'))) {
       return get(this, 'records');
