@@ -47,8 +47,10 @@
     "ember-async-button": "^1.0.0",
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.1.0",
-    "ember-data-route": "0.2.0",
-    "ember-engines": "dgeb/ember-engines"
+    "ember-data-route": "0.2.0"
+  },
+  "peerDependencies": {
+    "ember-engines": "*"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
