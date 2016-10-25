@@ -9,7 +9,7 @@ export function initialize(app) {
 };
 
 export default {
-  after: 'store',
+  after: 'ember-data',
   name: 'admin',
   initialize: initialize
 };
