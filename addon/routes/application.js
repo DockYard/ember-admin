@@ -11,6 +11,7 @@ export default Route.extend({
 
   model() {
     let dataAdapter = this.get('adminConfig.dataAdapter');
+
     return dataAdapter.getModelTypes().map(function(type) {
       return type.name;
     });

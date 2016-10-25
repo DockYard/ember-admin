@@ -11,6 +11,7 @@ const Eng = Engine.extend({
   dependencies: {
     services: [
       'store',
+      'admin-store',
       'admin-config'
     ]
   }

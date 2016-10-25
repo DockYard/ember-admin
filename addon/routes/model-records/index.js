@@ -7,12 +7,13 @@ const {
 } = Ember;
 
 export default Route.extend({
-  adminConfig: inject.service(),
+  adminStore: inject.service(),
 
   model() {
-    let config = this.get('adminConfig');
-    debugger;
-    return config.store.findAll(this.paramsFor('model-records').name).then(function(records) {
+    let adminStore = this.get('adminStore');
+    let params = this.paramsFor('model-records');
+
+    return adminStore.findAll(params.name).then(function(records) {
       return records.filter(function(item) {
         return !get(item, 'isNew');
       });
