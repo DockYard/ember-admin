@@ -12,6 +12,7 @@ const {
 
 export default Controller.extend(RecordTypeMixin, ColumnsMixin, {
   adminStore: inject.service(),
+  adminConfig: inject.service(),
 
   excludedColumns: ['id'],
   queryParams: ['relationship-name', 'relationship-id'],
