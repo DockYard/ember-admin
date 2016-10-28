@@ -1,6 +1,8 @@
-{{#if adminConfig.areas.modelList}}
-  {{component adminConfig.areas.modelList recordType=recordType}}
-{{/if}}
+{{#render-area 'modelList' recordType as |result|}}
+  {{component result recordType=recordType}}
+{{else}}
+  default..
+{{/render-area}}
 
 <div class="{{recordType}} index">
   {{input value=filter placeholder="Filter"}}

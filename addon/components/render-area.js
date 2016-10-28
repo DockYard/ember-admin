@@ -1,22 +1,17 @@
 import Ember from 'ember';
+import layout from '../templates/components/render-area';
 
-const { set, inject } = Ember;
+const { inject } = Ember;
 
 const Component = Ember.Component.extend({
   adminConfig: inject.service(),
+  layout,
 
   didReceiveAttrs() {
-    let areas = this.get('adminConfig.areas');
     let area = this.get('area');
     let type = this.get('type') || 'default';
-    let send = this.get('send');
-    let location = `${area}.${type}`;
-
-    if (!areas[area]) {
-      areas[area] = {};
-    }
-
-    set(areas, location, send);
+    let comp = this.get(`adminConfig.areas.${area}.${type}`);
+    this.set('comp', comp);
   }
 });
 
