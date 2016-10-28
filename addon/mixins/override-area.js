@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 const { set, inject } = Ember;
 
-const Component = Ember.Component.extend({
+export default Ember.Mixin.create({
   adminConfig: inject.service(),
 
   didReceiveAttrs() {
@@ -19,9 +19,3 @@ const Component = Ember.Component.extend({
     set(areas, location, send);
   }
 });
-
-Component.reopenClass({
-  positionalParams: ['area', 'type']
-});
-
-export default Component;
