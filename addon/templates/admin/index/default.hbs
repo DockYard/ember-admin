@@ -1,3 +1,7 @@
+{{#if adminConfig.areas.modelList}}
+  {{component adminConfig.areas.modelList recordType=recordType}}
+{{/if}}
+
 <div class="{{recordType}} index">
   {{input value=filter placeholder="Filter"}}
   {{#unless hideCreate}}

@@ -20,7 +20,6 @@ export default Component.extend(ColumnsMixin, {
 
   didReceiveAttrs() {
     this._super(...arguments);
-
     let owner = getOwner(this);
     let templatePath = `admin/index/${get(this, 'recordType')}`;
     if (!owner.resolveRegistration(`template:${templatePath}`)) {
