@@ -9,6 +9,10 @@ const {
 export default Route.extend({
   adminConfig: inject.service('admin-config'),
 
+  beforeModel() {
+    this.set('adminConfig.adminLoaded', true);
+  },
+
   model() {
     let dataAdapter = this.get('adminConfig.dataAdapter');
 
