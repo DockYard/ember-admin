@@ -8,7 +8,7 @@ const Component = Ember.Component.extend({
   layout,
 
   didReceiveAttrs() {
-    let theme = this.get('theme') || 'default';
+    let theme = this.get('adminConfig.activeTheme') || 'default';
     let area = this.get('area');
     let type = this.get('type') || 'default';
     let comp = this.get(`adminConfig.areas.${theme}.${area}.${type}`);
