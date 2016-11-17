@@ -11,7 +11,7 @@ const Component = Ember.Component.extend({
     this.changeComponent();
   },
 
-  changeComponentOnTheme: observer('adminConfig.activeTheme', function () {
+  changeComponentOnTheme: observer('adminConfig.activeTheme', 'adminConfig.areas', function () {
     this.changeComponent();
   }),
 
