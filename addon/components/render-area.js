@@ -11,6 +11,11 @@ const Component = Ember.Component.extend({
     let area = this.get('area');
     let type = this.get('type') || 'default';
     let comp = this.get(`adminConfig.areas.${area}.${type}`);
+
+    if (!comp) {
+      comp = this.get(`adminConfig.areas.${area}.default`);
+    }
+
     this.set('comp', comp);
   }
 });
