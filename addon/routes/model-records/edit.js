@@ -10,7 +10,6 @@ const {
 
 export default Route.extend(WriteMixin, {
   adminStore: inject.service(),
-  templateAdminPath: 'admin/edit',
 
   model(params) {
     let store = this.get('adminStore');
