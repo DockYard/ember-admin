@@ -1,5 +1,5 @@
-{{#render-area 'modelList' recordType as |result|}}
-  {{component result
+{{#render-area 'modelList' recordType as |api|}}
+  {{api.area
     recordType=recordType
     hideCreate=hideCreate
     filter=filter
