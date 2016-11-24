@@ -12,6 +12,10 @@ shouldn't into your regular data store.
 
 EmberData is currently a requirement.
 
+## Demo ##
+
+This repo supports the core functionality of EmberAdmin, but it's easy to add your own styling. Check out the [Bootstrap theme](https://github.com/dockyard/ember-admin-bootstrap) as an example.
+
 ## Install ##
 
 ```bash
