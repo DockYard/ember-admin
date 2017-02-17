@@ -172,6 +172,12 @@ Plugins can take many forms but the general idea is that they will extend the de
 
 * [ember-admin-bootstrap](https://github.com/dockyard/ember-admin-bootstrap)
 
+## Ember Admin in the Wild ##
+
+Others have used ember-admin in their applications like:
+
+* [EmberCMS](https://github.com/dioptre/embercms) a javascript only front-end and back-end (fullstack) content management system (CMS) based on javascript, ember, ember-cli, sailsJS, material design lite (MDL) and ember-admin.
+
 ## Authors ##
 
 * [Brian Cardarella](http://twitter.com/bcardarella)
