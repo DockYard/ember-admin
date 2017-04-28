@@ -16,6 +16,7 @@ export default Store.extend({
     if (!this.typeAdapter) {
       this.typeAdapter = {};
     }
+
     if (!this.typeAdapter[type]) {
       let namespaces = [];
       let adapter = this._super(type);
