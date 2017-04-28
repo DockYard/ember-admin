@@ -5,8 +5,7 @@ import RESTAdapter from 'ember-data/adapters/rest';
 let adminService;
 
 const {
-  get,
-  set
+  get
 } = Ember;
 
 moduleFor('ember-admin@store:admin', 'Unit | Store | admin', {
@@ -23,9 +22,11 @@ test('defaults to "api" namespace', function(assert) {
 });
 
 test('appends ember-admin\'s namespace to the end of the adapter namespaces', function(assert) {
-  set(this.subject(), 'lookupAdapter', function() {
-    return RESTAdapter.create({ namespace: 'api/v1' });
-  });
+  let {
+    container: { owner }
+  } = this;
+
+  owner.register('adapter:dog', RESTAdapter.create({ namespace: 'api/v1' }), { instantiate: false });
   let adapter = this.subject().adapterFor('dog');
   assert.equal(adapter.namespace, 'api/v1/admin');
 });
@@ -43,9 +44,11 @@ test('allow `null` namespace', function(assert) {
 });
 
 test('empty admin namespace does not add tralining slash to adapter namespace', function(assert) {
-  set(this.subject(), 'lookupAdapter', function() {
-    return RESTAdapter.create({ namespace: 'api/v1' });
-  });
+  let {
+    container: { owner }
+  } = this;
+
+  owner.register('adapter:dog', RESTAdapter.create({ namespace: 'api/v1' }), { instantiate: false });
   adminService.namespace = '';
   let adapter = this.subject().adapterFor('dog');
   assert.equal(adapter.namespace, 'api/v1');
