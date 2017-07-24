@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/DockYard/ember-admin.svg?branch=master)](https://travis-ci.org/DockYard/ember-admin) [![CircleCI](https://circleci.com/gh/DockYard/ember-admin.svg?style=shield)](https://circleci.com/gh/DockYard/ember-admin) [![npm version](https://badge.fury.io/js/ember-admin.svg)](https://badge.fury.io/js/ember-admin) [![Ember Observer Score](http://emberobserver.com/badges/ember-admin.svg)](http://emberobserver.com/addons/ember-admin)
 
+**[ember-admin is built and maintained by DockYard, contact us for expert Ember.js consulting](https://dockyard.com/ember-consulting)**.
+
 ## About ##
 
 Automatically discover your models and interact with all model data in a
