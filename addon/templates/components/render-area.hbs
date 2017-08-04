@@ -1,0 +1,5 @@
+{{#if comp}}
+  {{yield (hash area=(component comp))}}
+{{else}}
+  {{yield to='inverse'}}
+{{/if}}

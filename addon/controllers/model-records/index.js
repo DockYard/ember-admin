@@ -1,8 +1,64 @@
 import Ember from 'ember';
 import RecordTypeMixin from 'ember-admin/mixins/model-records/record-type';
+import ColumnsMixin from 'ember-admin/mixins/model-records/columns';
 
 const {
+  get,
+  set,
+  isBlank,
+  isNone,
+  inject,
+  computed,
   Controller
 } = Ember;
+const { alias } = computed;
 
-export default Controller.extend(RecordTypeMixin);
+export default Controller.extend(RecordTypeMixin, ColumnsMixin, {
+  adminStore: inject.service(),
+  adminConfig: inject.service(),
+  includedColumns: ['id'],
+
+  filteredRecords: computed('records', 'filter', function() {
+    if (isBlank(get(this, 'filter'))) {
+      return get(this, 'records');
+    } else {
+      let filter = get(this, 'filter').toLowerCase();
+      let columns = get(this, 'filteredColumns');
+      return get(this, 'records').filter(function(record) {
+        let value;
+
+        for (let i = 0; i < columns.length; i++) {
+          value = (get(record, columns[i]) || '').toString().toLowerCase();
+
+          if (value.indexOf(filter) > -1) {
+            return true;
+          }
+        }
+      });
+    }
+  }),
+  relationshipGiven: computed('relationshipName', 'relationshipId', function() {
+    return get(this, 'relationshipName') && get(this, 'relationshipId');
+  }),
+  hideCreate: computed('relationshipName', 'relationshipId', function() {
+    let store = this.get('adminStore');
+    let relationshipName = get(this, 'relationshipName');
+    let relationshipId = get(this, 'relationshipId');
+
+    if (relationshipId) {
+      if (isNone(relationshipName)) {
+        return true;
+      } else {
+        let constructor = store.modelFor(get(this, 'recordType'));
+        let inverseFor = constructor.inverseFor(relationshipName, store);
+        let { kind } = inverseFor;
+
+        if (kind && kind === 'belongsTo' && get(this, 'records.length') > 0) {
+          return true;
+        }
+      }
+    }
+    return false;
+  })
+  
+});
