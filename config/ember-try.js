@@ -1,60 +1,71 @@
-/*jshint node:true*/
-module.exports = {
-  scenarios: [
-    {
-      name: 'ember-lts',
-      bower: {
-        dependencies: {
-          "ember": "~2.4.0"
-        }
-      }
-    },
-    {
-      name: 'ember-latest',
-      bower: {
-        dependencies: {
-          "ember": "release"
+'use strict';
+
+const getChannelURL = require('ember-source-channel-url');
+
+module.exports = function() {
+  return Promise.all([
+    getChannelURL('release'),
+    getChannelURL('beta'),
+    getChannelURL('canary')
+  ]).then((urls) => {
+    return {
+      useYarn: true,
+      scenarios: [
+        {
+          name: 'ember-lts-2.12',
+          npm: {
+            devDependencies: {
+              'ember-source': '~2.12.0'
+            }
+          }
         },
-        resolutions: {
-          "ember": "release"
-        }
-      }
-    },
-    {
-      name: 'ember-beta',
-      allowedToFail: true,
-      bower: {
-        dependencies: {
-          "ember": "beta"
+        {
+          name: 'ember-lts-2.16',
+          npm: {
+            devDependencies: {
+              'ember-source': '~2.16.0'
+            }
+          }
         },
-        resolutions: {
-          "ember": "beta"
-        }
-      }
-    },
-    {
-      name: 'ember-canary',
-      allowedToFail: true,
-      bower: {
-        dependencies: {
-          "ember": "canary"
+        {
+          name: 'ember-default',
+          npm: {
+            devDependencies: {}
+          }
         },
-        resolutions: {
-          "ember": "canary"
-        }
-      }
-    },
-    {
-      name: 'ember-alpha',
-      allowedToFail: true,
-      bower: {
-        dependencies: {
-          "ember": "alpha"
+        {
+          name: 'ember-3.0',
+          npm: {
+            devDependencies: {
+              'ember-source': '~3.0.0'
+            }
+          }
         },
-        resolutions: {
-          "ember": "alpha"
+        {
+          name: 'ember-release',
+          npm: {
+            devDependencies: {
+              'ember-source': urls[0]
+            }
+          }
+        },
+        {
+          name: 'ember-beta',
+          npm: {
+            devDependencies: {
+              'ember-source': urls[1]
+            }
+          }
+        },
+        {
+          name: 'ember-canary',
+          npm: {
+            devDependencies: {
+              'ember-source': urls[2]
+            }
+          }
         }
-      }
-    }
-  ]
+      ]
+    };
+  });
 };

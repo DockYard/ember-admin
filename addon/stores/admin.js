@@ -1,11 +1,7 @@
-import Ember from 'ember';
 import DS from 'ember-data';
-
-const {
-  getOwner,
-  isEmpty,
-  get
-} = Ember;
+import { getOwner } from '@ember/application';
+import { isEmpty } from '@ember/utils';
+import { get } from '@ember/object';
 
 const {
   Store

@@ -1,9 +1,5 @@
-import Ember from 'ember';
 import ApplicationAdapter from './application';
-
-const {
-  computed
-} = Ember;
+import { computed } from '@ember/object';
 
 export default ApplicationAdapter.extend({
   namespace: computed(function() {

@@ -1,11 +1,7 @@
-import Ember from 'ember';
-
-const {
-  computed,
-  get,
-  getOwner,
-  Mixin
-} = Ember;
+import { computed } from '@ember/object';
+import { get } from '@ember/object';
+import { getOwner } from '@ember/application';
+import Mixin from '@ember/object/mixin';
 
 export default Mixin.create({
   'model-record': computed('recordType', function() {

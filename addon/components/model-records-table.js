@@ -1,18 +1,13 @@
-import Ember from 'ember';
 import ColumnsMixin from 'ember-admin/mixins/model-records/columns';
-
-const {
-  get,
-  set,
-  isBlank,
-  isNone,
-  computed,
-  getOwner,
-  Component
-} = Ember;
+import { get, set } from '@ember/object';
+import { isBlank, isNone } from '@ember/utils';
+import { computed } from '@ember/object';
+import { getOwner } from '@ember/application';
+import Component from '@ember/component';
+import { A } from '@ember/array';
 
 export default Component.extend(ColumnsMixin, {
-  includedColumns: ['id'],
+  includedColumns: A(['id']),
   didReceiveAttrs() {
     this._super(...arguments);
 

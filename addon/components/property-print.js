@@ -1,14 +1,10 @@
-import Ember from 'ember';
 import layout from '../templates/property-print';
-
-const {
-  Component,
-  on,
-  get,
-  set,
-  observer,
-  addObserver
-} = Ember;
+import Component from '@ember/component';
+import { on } from '@ember/object/evented';
+import { get } from '@ember/object';
+import { set } from '@ember/object';
+import { observer } from '@ember/object';
+import { addObserver } from '@ember/object/observers';
 
 export default Component.extend({
   setupCellObsever: observer('record', 'column', on('init', function() {

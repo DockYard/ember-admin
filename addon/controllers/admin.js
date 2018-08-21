@@ -1,12 +1,8 @@
-import Ember from 'ember';
 import { includes, removeObject } from 'ember-admin/utils/array';
-
-const {
-  get,
-  computed,
-  A: emberArray,
-  Controller
-} = Ember;
+import { get } from '@ember/object';
+import { computed } from '@ember/object';
+import { A as emberArray} from '@ember/array';
+import Controller from '@ember/controller';
 
 export default Controller.extend({
   filteredModels: computed(function() {

@@ -1,11 +1,6 @@
-import Ember from 'ember';
-
-const {
-  get,
-  set,
-  computed,
-  TextField
-} = Ember;
+import { get, set } from '@ember/object';
+import { computed } from '@ember/object';
+import TextField from '@ember/component/text-field';
 
 export default TextField.extend({
   value: computed('columnValue', {

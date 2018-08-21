@@ -21,7 +21,7 @@
         <tr>
           {{#each filteredColumns as |column|}}
           <td>
-            {{#link-to 'model-records.edit' recordType record}}
+            {{#link-to 'model-records.edit' recordType record.id}}
               {{property-print record=record column=column}}
             {{/link-to}}
           </td>

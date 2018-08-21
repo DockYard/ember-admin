@@ -6,10 +6,10 @@ export function initialize(app) {
   app.inject('controller', 'admin', 'service:admin');
   app.inject('component', 'admin', 'service:admin');
   app.inject('service:admin', 'store', 'store:admin');
-};
+}
 
 export default {
   after: 'ember-data',
   name: 'admin',
-  initialize: initialize
+  initialize
 };
