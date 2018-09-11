@@ -1,9 +1,5 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 import WriteMixin from 'ember-admin/mixins/model-records/write';
-
-const {
-  Route
-} = Ember;
 
 export default Route.extend(WriteMixin, {
   model() {

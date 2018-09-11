@@ -1,11 +1,7 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
+import { Promise } from 'rsvp';
 import WriteMixin from 'ember-admin/mixins/model-records/write';
-
-const {
-  get,
-  Route,
-  RSVP: { Promise }
-} = Ember;
 
 export default Route.extend(WriteMixin, {
   model(params) {

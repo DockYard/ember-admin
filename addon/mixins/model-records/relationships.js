@@ -1,14 +1,9 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
+import { computed } from '@ember/object';
+import { isArray, A as emberArray,  } from '@ember/array';
 import { pushObject } from 'ember-admin/utils/array';
-
-const {
-  get,
-  computed,
-  isArray,
-  getOwner,
-  Mixin,
-  A: emberArray
-} = Ember;
+import { getOwner } from '@ember/application';
+import Mixin from '@ember/object/mixin';
 
 function relationshipMacro(type) {
   return computed('recordType', 'id', function() {

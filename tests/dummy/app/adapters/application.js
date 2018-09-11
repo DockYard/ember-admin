@@ -7,5 +7,7 @@ const {
 export default RESTAdapter.extend({
   shouldBackgroundReloadRecord() {
     return true;
-  }
+  },
+
+  fastboot: null
 });

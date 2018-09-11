@@ -1,11 +1,7 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
+import { getOwner } from '@ember/application';
+import Mixin from '@ember/object/mixin';
 import EmberDataRouteMixin from 'ember-data-route';
-
-const {
-  get,
-  getOwner,
-  Mixin
-} = Ember;
 
 export default Mixin.create(EmberDataRouteMixin, {
   renderTemplate() {

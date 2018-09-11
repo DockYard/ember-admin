@@ -1,8 +1,4 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import RecordTypeMixin from 'ember-admin/mixins/model-records/record-type';
-
-const {
-  Controller
-} = Ember;
 
 export default Controller.extend(RecordTypeMixin);

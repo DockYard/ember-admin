@@ -1,16 +1,12 @@
-import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 import RESTAdapter from 'ember-data/adapters/rest';
+import { get } from '@ember/object';
 
 let adminService;
 
-const {
-  get
-} = Ember;
-
 moduleFor('ember-admin@store:admin', 'Unit | Store | admin', {
   needs: ['service:admin'],
-  setup() {
+  beforeEach() {
     this.inject.service('admin');
     adminService = get(this, 'admin');
   }
@@ -25,8 +21,7 @@ test('appends ember-admin\'s namespace to the end of the adapter namespaces', fu
   let {
     container: { owner }
   } = this;
-
-  owner.register('adapter:dog', RESTAdapter.create({ namespace: 'api/v1' }), { instantiate: false });
+  owner.register('adapter:dog', RESTAdapter.extend({ namespace: 'api/v1' }));
   let adapter = this.subject().adapterFor('dog');
   assert.equal(adapter.namespace, 'api/v1/admin');
 });
@@ -48,7 +43,7 @@ test('empty admin namespace does not add tralining slash to adapter namespace', 
     container: { owner }
   } = this;
 
-  owner.register('adapter:dog', RESTAdapter.create({ namespace: 'api/v1' }), { instantiate: false });
+  owner.register('adapter:dog', RESTAdapter.extend({ namespace: 'api/v1' }));
   adminService.namespace = '';
   let adapter = this.subject().adapterFor('dog');
   assert.equal(adapter.namespace, 'api/v1');

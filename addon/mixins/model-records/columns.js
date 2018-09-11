@@ -1,15 +1,11 @@
-import Ember from 'ember';
 import RecordTypeMixin from 'ember-admin/mixins/model-records/model-record';
+import Mixin from '@ember/object/mixin';
+import { A as emberArray } from '@ember/array';
 import { includes } from 'ember-admin/utils/array';
-
-const {
-  Mixin,
-  A: emberArray,
-  get,
-  computed,
-  computed: { filter },
-  getOwner
-} = Ember;
+import { get } from '@ember/object';
+import { computed } from '@ember/object';
+import { filter } from '@ember/object/computed';
+import { getOwner } from '@ember/application';
 
 function columnIncludes(columnType, parameter) {
   return columnType && includes(columnType, parameter);
